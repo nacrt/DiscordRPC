@@ -1,0 +1,9 @@
+c1;c1.jpg;Scou
+c2;c2.jpg;Soldier
+c3;c3.jpg;Pyro
+c4;c4.jpg;Demoman
+c5;c5.jpg;Heavy
+c6;c6.jpg;Engineer
+c7;c7.jpg;Medic
+c8;c8.jpg;Sniper
+c9;c9.jpg;Spy

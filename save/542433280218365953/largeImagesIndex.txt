@@ -1,0 +1,12 @@
+cp_metalworks;cp_metalworks.jpg;cp_metalworks
+cp_orange;cp_orange.jpg;cp_orange
+cp_process;cp_process.jpg;cp_process
+cp_steel;cp_steel.jpg;cp_steel
+ctf_2fort;ctf_2fort.jpg;ctf_2fort
+koth_redirect;koth_redirect.jpg;koth_redirect
+trade_plaza;trade_plaza.jpg;trade_plaza
+plr_hightower;plr_hightower.jpg;plr_hightower
+cp_dustbowl;cp_dustbowl.jpg;cp_dustbowl
+rd_asteroid;rd_asteroid.jpg;rd_asteroid
+pl_cactuscanyon;pl_cactuscanyon.jpg;pl_cactuscanyon
+tc_hydro;tc_hydro.jpg;tc_hydro
