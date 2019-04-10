@@ -16,7 +16,6 @@ namespace MDG
 		/// makes sure you can open it again :)
 		private void images_closed(object sender, FormClosedEventArgs e) => Main.opendLarge = false;
 
-		//hi
 		private static long client_id;
 		private static string folder_path;
 		private static string file_name = "largeImagesIndex.txt";
