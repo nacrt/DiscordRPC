@@ -11,3 +11,4 @@
 *.ide-wal
 
 .vs/
+.vs/MakingDiscordGreater/v15/Server/sqlite3/storage.ide-wal
