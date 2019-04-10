@@ -222,7 +222,7 @@
 			this.MaximumSize = new System.Drawing.Size(816, 9000);
 			this.Name = "largeImages";
 			this.Text = "frmLargeImages";
-			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.images_closed);
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmimages_closed);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
