@@ -13,6 +13,10 @@ namespace MDG
 {
 	public partial class largeImages : Form
 	{
+		/// makes sure you can open it again :)
+		private void images_closed(object sender, FormClosedEventArgs e) => Main.opendLarge = false;
+
+
 		private static long client_id;
 		private static string folder_path;
 		private static string file_name = "largeImagesIndex.txt";
@@ -172,18 +176,6 @@ namespace MDG
 		private void lv_small_ItemChecked(object sender, ItemCheckedEventArgs e)
 		{
 			Img.Large[e.Item.Index].Check = e.Item.Checked;
-		}
-
-
-
-		/// <summary>
-		/// makes sure you can open it again :)
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void images_closed(object sender, FormClosedEventArgs e)
-		{
-			Main.opendLarge = false;
 		}
 
 		private void keydownEnter(object sender, KeyEventArgs e)

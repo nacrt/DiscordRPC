@@ -15,8 +15,7 @@ namespace MDG
 	public partial class smallImages : Form
 	{
 		/// makes sure you can open it again :)
-		private void frmimages_closed(object sender, FormClosedEventArgs e)
-		{Main.opendSmall = false;}
+		private void frmimages_closed(object sender, FormClosedEventArgs e) => Main.opendSmall = false;
 
 		private static long client_id;
 		private static string folder_path;
