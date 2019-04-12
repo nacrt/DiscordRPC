@@ -71,16 +71,6 @@ namespace MDG
 					{
 						_addListViewItem(item);
 					}
-					
-
-
-					//ListViewItem newRow = lvImages.Items.Add(item.Key);
-					//newRow.SubItems.Add(item.Path);
-					//newRow.SubItems.Add(item.Text);
-					//newRow.Checked = item.Check;
-					//newRow.ImageKey = item.Key;
-					//setLvColor(newRow, item.Check);
-					//index++;
 				}
 				else
 				{
