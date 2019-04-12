@@ -44,14 +44,15 @@
 			this.btnSortUp = new System.Windows.Forms.Button();
 			this.btnSortDown = new System.Windows.Forms.Button();
 			this.btnSave = new System.Windows.Forms.Button();
+			this.btnToggleUsage = new System.Windows.Forms.Button();
+			this.chkHideUnusedAssets = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
-			// listView
+			// lvImages
 			// 
 			this.lvImages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.lvImages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.lvImages.CheckBoxes = true;
 			this.lvImages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.col_s_imgKey,
             this.col_s_imgPath,
@@ -59,9 +60,10 @@
 			this.lvImages.FullRowSelect = true;
 			this.lvImages.GridLines = true;
 			this.lvImages.HideSelection = false;
+			this.lvImages.LabelWrap = false;
 			this.lvImages.Location = new System.Drawing.Point(12, 12);
 			this.lvImages.MultiSelect = false;
-			this.lvImages.Name = "listView";
+			this.lvImages.Name = "lvImages";
 			this.lvImages.Size = new System.Drawing.Size(606, 426);
 			this.lvImages.SmallImageList = this.imageList;
 			this.lvImages.TabIndex = 0;
@@ -71,6 +73,7 @@
 			this.lvImages.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lv_col_width_change);
 			this.lvImages.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lv_small_ItemChecked);
 			this.lvImages.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
+			this.lvImages.DoubleClick += new System.EventHandler(this.lvImages_DoubleClick);
 			// 
 			// col_s_imgKey
 			// 
@@ -131,7 +134,7 @@
 			this.btnTxtChangeKeys.Name = "btnTxtChangeKeys";
 			this.btnTxtChangeKeys.Size = new System.Drawing.Size(150, 20);
 			this.btnTxtChangeKeys.TabIndex = 4;
-			this.btnTxtChangeKeys.Text = "Change Row";
+			this.btnTxtChangeKeys.Text = "Update Asset";
 			this.btnTxtChangeKeys.UseVisualStyleBackColor = true;
 			this.btnTxtChangeKeys.Click += new System.EventHandler(this.btnTxtChangeKeys_Click);
 			// 
@@ -154,7 +157,7 @@
 			this.btnTxtAddKeys.Name = "btnTxtAddKeys";
 			this.btnTxtAddKeys.Size = new System.Drawing.Size(150, 20);
 			this.btnTxtAddKeys.TabIndex = 7;
-			this.btnTxtAddKeys.Text = "Add Row";
+			this.btnTxtAddKeys.Text = "Add Asset";
 			this.btnTxtAddKeys.UseVisualStyleBackColor = true;
 			this.btnTxtAddKeys.Click += new System.EventHandler(this.btnTxtAddKeys_Click);
 			// 
@@ -165,16 +168,16 @@
 			this.btnTxtDeleteKeys.Name = "btnTxtDeleteKeys";
 			this.btnTxtDeleteKeys.Size = new System.Drawing.Size(150, 20);
 			this.btnTxtDeleteKeys.TabIndex = 8;
-			this.btnTxtDeleteKeys.Text = "Delete Row";
+			this.btnTxtDeleteKeys.Text = "Delete Asset";
 			this.btnTxtDeleteKeys.UseVisualStyleBackColor = true;
 			this.btnTxtDeleteKeys.Click += new System.EventHandler(this.btnTxtDeleteKeys_Click);
 			// 
 			// btnSortUp
 			// 
 			this.btnSortUp.AccessibleDescription = "u";
-			this.btnSortUp.Location = new System.Drawing.Point(624, 168);
+			this.btnSortUp.Location = new System.Drawing.Point(624, 164);
 			this.btnSortUp.Name = "btnSortUp";
-			this.btnSortUp.Size = new System.Drawing.Size(70, 70);
+			this.btnSortUp.Size = new System.Drawing.Size(70, 32);
 			this.btnSortUp.TabIndex = 9;
 			this.btnSortUp.Text = "Sort Up";
 			this.btnSortUp.UseVisualStyleBackColor = true;
@@ -183,9 +186,9 @@
 			// btnSortDown
 			// 
 			this.btnSortDown.AccessibleDescription = "d";
-			this.btnSortDown.Location = new System.Drawing.Point(704, 168);
+			this.btnSortDown.Location = new System.Drawing.Point(624, 202);
 			this.btnSortDown.Name = "btnSortDown";
-			this.btnSortDown.Size = new System.Drawing.Size(70, 70);
+			this.btnSortDown.Size = new System.Drawing.Size(70, 32);
 			this.btnSortDown.TabIndex = 10;
 			this.btnSortDown.Text = "Sort Down";
 			this.btnSortDown.UseVisualStyleBackColor = true;
@@ -203,11 +206,36 @@
 			this.btnSave.UseVisualStyleBackColor = true;
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
+			// btnToggleUsage
+			// 
+			this.btnToggleUsage.AccessibleDescription = "80";
+			this.btnToggleUsage.Location = new System.Drawing.Point(704, 164);
+			this.btnToggleUsage.Name = "btnToggleUsage";
+			this.btnToggleUsage.Size = new System.Drawing.Size(70, 70);
+			this.btnToggleUsage.TabIndex = 12;
+			this.btnToggleUsage.Text = "Toggle Usage";
+			this.btnToggleUsage.UseVisualStyleBackColor = true;
+			this.btnToggleUsage.Click += new System.EventHandler(this.btnToggleUsage_Click);
+			// 
+			// chkHideUnusedAssets
+			// 
+			this.chkHideUnusedAssets.Appearance = System.Windows.Forms.Appearance.Button;
+			this.chkHideUnusedAssets.Location = new System.Drawing.Point(624, 240);
+			this.chkHideUnusedAssets.Name = "chkHideUnusedAssets";
+			this.chkHideUnusedAssets.Size = new System.Drawing.Size(150, 20);
+			this.chkHideUnusedAssets.TabIndex = 13;
+			this.chkHideUnusedAssets.Text = "Hide unused Assets";
+			this.chkHideUnusedAssets.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.chkHideUnusedAssets.UseVisualStyleBackColor = true;
+			this.chkHideUnusedAssets.CheckedChanged += new System.EventHandler(this.chkHideUnusedAssets_CheckedChanged);
+			// 
 			// smallImages
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.chkHideUnusedAssets);
+			this.Controls.Add(this.btnToggleUsage);
 			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.btnSortDown);
 			this.Controls.Add(this.btnSortUp);
@@ -245,5 +273,7 @@
 		private System.Windows.Forms.Button btnSortUp;
 		private System.Windows.Forms.Button btnSortDown;
 		private System.Windows.Forms.Button btnSave;
+		private System.Windows.Forms.Button btnToggleUsage;
+		private System.Windows.Forms.CheckBox chkHideUnusedAssets;
 	}
 }

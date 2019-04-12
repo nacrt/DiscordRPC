@@ -23,7 +23,8 @@ namespace MDG
 		private static string images_path;
 
 		private static int lv_sel_index;
-		private static bool selectedLVItemAvaliable = false;
+		private static bool lv_sel_avaliable = false;
+		private static ListViewItem lv_sel_item;
 		
 		
 		public smallImages(long id)
@@ -64,14 +65,32 @@ namespace MDG
 			int index = 0;
 			foreach (Img.Asset item in Img.Small)
 			{
-				ListViewItem newRow = lvImages.Items.Add(item.Key);
-				newRow.SubItems.Add(item.Path);
-				newRow.SubItems.Add(item.Text);
-				newRow.Checked = item.Check;
-				newRow.ImageKey = item.Key;
-				index++;
+				if (chkHideUnusedAssets.Checked)
+				{
+					if (item.Check)
+					{
+						_addListViewItem(item);
+					}
+					
+
+
+					//ListViewItem newRow = lvImages.Items.Add(item.Key);
+					//newRow.SubItems.Add(item.Path);
+					//newRow.SubItems.Add(item.Text);
+					//newRow.Checked = item.Check;
+					//newRow.ImageKey = item.Key;
+					//setLvColor(newRow, item.Check);
+					//index++;
+				}
+				else
+				{
+					_addListViewItem(item);
+				}
+
 			}
 		}
+
+
 
 
 		/// <summary>
@@ -90,15 +109,15 @@ namespace MDG
 			if (sender.SelectedItems.Count == 1)
 			{
 				lv_sel_index = sender.SelectedIndices[0];
-
-				selectedLVItemAvaliable = true;
+				lv_sel_avaliable = true;
+				lv_sel_item = sender.SelectedItems[0];
 				txtKey.Text = Img.Small[lv_sel_index].Key;
 				txtPath.Text = Img.Small[lv_sel_index].Path;
 				txtText.Text = Img.Small[lv_sel_index].Text;
 			}
 			else
 			{
-				selectedLVItemAvaliable = false;
+				lv_sel_avaliable = false;
 				txtKey.Text = "";
 				txtPath.Text = "";
 				txtText.Text = "";
@@ -137,45 +156,103 @@ namespace MDG
 		{
 			lvImages.Width = lvImages.Columns[0].Width + lvImages.Columns[1].Width + lvImages.Columns[2].Width + 20;
 			int distLvEnd = lvImages.Size.Width + 12;
-			int txtKeyY = txtKey.Location.Y;
-			int txtPathY = txtPath.Location.Y;
-			int txtTextY = txtText.Location.Y;
-			int btnTCKY = btnTxtChangeKeys.Location.Y;
-			int btnCloseY = btnClose.Location.Y;
-			int btnARKY = btnTxtAddKeys.Location.Y;
-			int btnTDKY = btnTxtDeleteKeys.Location.Y;
-			int btnSUY = btnSortUp.Location.Y;
-			int btnSDY = btnSortDown.Location.Y;
-			int btnSaveY = btnSave.Location.Y;
-
 
 			int distTxtToLv = 6;
-			int distafterlv = distLvEnd + distTxtToLv;
-			txtKey.Location =			new Point(distafterlv, txtKeyY);
-			txtPath.Location =			new Point(distafterlv, txtPathY);
-			txtText.Location =			new Point(distafterlv, txtTextY);
-			btnTxtChangeKeys.Location = new Point(distafterlv, btnTCKY);
-			btnClose.Location =			new Point(distafterlv, btnCloseY);
-			btnTxtAddKeys.Location =	new Point(distafterlv, btnARKY);
-			btnTxtDeleteKeys.Location = new Point(distafterlv, btnTDKY);
-			btnSortUp.Location =		new Point(distafterlv, btnSUY);
-			btnSortDown.Location =		new Point(distafterlv + 80, btnSDY);
-			btnSave.Location =			new Point(distafterlv, btnSaveY);
+			int afterLvX = distLvEnd + distTxtToLv;
+			int x = afterLvX;
+
+			List<TextBox> txts = new List<TextBox>(0);
+			txts.Add(txtKey);
+			txts.Add(txtPath);
+			txts.Add(txtText);
+			foreach (TextBox item in txts)
+			{
+				int y = item.Location.Y;
+				int offset = 0;
+				int.TryParse(item.AccessibleDescription, out offset);
+				item.Location = new Point(x + offset, y);
+
+			}
+
+			List<Button> btns = new List<Button>(0);
+			btns.Add(btnTxtChangeKeys);
+			btns.Add(btnClose);
+			btns.Add(btnTxtAddKeys);
+			btns.Add(btnTxtDeleteKeys);
+			btns.Add(btnSortUp);
+			btns.Add(btnSortDown);
+			btns.Add(btnSave);
+			btns.Add(btnToggleUsage);
+			foreach (Button item in btns)
+			{
+				int y = item.Location.Y;
+				int offset = 0;
+				int.TryParse(item.AccessibleDescription, out offset);
+				item.Location = new Point(x + offset, y);
+			}
+
+			List<CheckBox> chks = new List<CheckBox>(0);
+			chks.Add(chkHideUnusedAssets);
+			foreach (CheckBox item in chks)
+			{
+				int y = item.Location.Y;
+				int offset = 0;
+				int.TryParse(item.AccessibleDescription, out offset);
+				item.Location = new Point(x + offset, y);
+			}
 		}
 
 
 		/// <summary>
 		/// Updates the Used state of the key
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lv_small_ItemChecked(object sender, ItemCheckedEventArgs e)
+		private void lv_small_ItemChecked(object _sender, ItemCheckedEventArgs e)
 		{
 			Img.Small[e.Item.Index].Check = e.Item.Checked;
+			Color backcolor = (e.Item.Checked) ? Color.FromArgb(154, 173, 224) : Color.FromKnownColor(KnownColor.WhiteSmoke);
+
+			e.Item.BackColor = backcolor;
+		}
+
+		private void btnToggleUsage_Click(object sender, EventArgs e)
+		{
+			if (lv_sel_avaliable)
+			{
+				_toggleusage();
+			}
+		}
+
+		private void _toggleusage()
+		{
+			bool newCheck = !Img.Small[lv_sel_index].Check;
+			Img.Small[lv_sel_index].Check = newCheck;
+			setLvColor(lvImages.SelectedItems[0], newCheck);
+			if (chkHideUnusedAssets.Checked && !newCheck)
+			{
+				lvImages.Items[lv_sel_index].Remove();
+				try
+				{
+					lvImages.Items[lv_sel_index].Selected = true;
+					chkHideUnusedAssets.Select();
+				}
+				catch (Exception)
+				{
+					try
+					{
+						lvImages.Items[lv_sel_index - 1].Selected = true;
+						chkHideUnusedAssets.Select();
+					}
+					catch (Exception) { }
+				}
+			}
+		}
+
+		public void setLvColor(ListViewItem item, bool selected)
+		{
+			item.BackColor = (selected) ? Color.FromArgb(154, 173, 224) : Color.FromKnownColor(KnownColor.WhiteSmoke);
 		}
 
 
-		
 
 
 		private void keydownEnter(object sender, KeyEventArgs e)
@@ -193,7 +270,7 @@ namespace MDG
 		/// </summary>
 		private void _txtKeysChange()
 		{
-			if (selectedLVItemAvaliable)
+			if (lv_sel_avaliable)
 			{
 
 				string key = txtKey.Text.Trim();
@@ -307,7 +384,7 @@ namespace MDG
 
 		private void btnTxtDeleteKeys_Click(object sender, EventArgs e)
 		{
-			if (selectedLVItemAvaliable)
+			if (lv_sel_avaliable)
 			{
 				lvImages.Items[lv_sel_index].Remove();
 
@@ -316,7 +393,8 @@ namespace MDG
 				try
 				{
 					lvImages.Items[lv_sel_index].Selected = true;
-				} catch (Exception) {
+				} catch (Exception)
+				{
 					try
 					{
 						lvImages.Items[lv_sel_index - 1].Selected = true;
@@ -329,7 +407,7 @@ namespace MDG
 
 		private void btnSort_Click(object _sender, EventArgs e)
 		{
-			if (selectedLVItemAvaliable && lvImages.Items.Count > 1)
+			if (lv_sel_avaliable && lvImages.Items.Count > 1)
 			{
 				Button sender = (Button)_sender;
 				string uORd = sender.AccessibleDescription;
@@ -406,7 +484,7 @@ namespace MDG
 
 		}
 
-		private void _addListViewItem(Img.Asset asset, int index = -1)
+		private void _addListViewItem(Img.Asset asset)
 		{
 			ListViewItem newRow = lvImages.Items.Add(asset.Key);
 			newRow.SubItems.Add(asset.Path);
@@ -415,16 +493,25 @@ namespace MDG
 			newRow.ImageKey = asset.Key;
 			newRow.Checked = asset.Check;
 			newRow.Selected = true;
-
-			if (index != -1)
-			{
-
-			}
+			setLvColor(newRow, asset.Check);
 		}
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
 			IP.saveToFile(Img.Small, folder_path + file_name);
+		}
+
+		private void lvImages_DoubleClick(object sender, EventArgs e)
+		{
+			if (lv_sel_avaliable)
+			{
+				_toggleusage();
+			}
+		}
+
+		private void chkHideUnusedAssets_CheckedChanged(object sender, EventArgs e)
+		{
+			load_listView_from_all();
 		}
 	}
 }

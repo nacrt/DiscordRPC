@@ -1,4 +1,4 @@
-c1;c1.jpg;Scou
+c1;c1.jpg;Scout
 c2;c2.jpg;Soldier
 c3;c3.jpg;Pyro
 c4;c4.jpg;Demoman
