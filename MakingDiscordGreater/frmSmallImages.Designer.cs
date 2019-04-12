@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.listView = new System.Windows.Forms.ListView();
+			this.lvImages = new System.Windows.Forms.ListView();
 			this.col_s_imgKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.col_s_imgPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.col_s_text = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -48,29 +48,29 @@
 			// 
 			// listView
 			// 
-			this.listView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.lvImages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.listView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.listView.CheckBoxes = true;
-			this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.lvImages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.lvImages.CheckBoxes = true;
+			this.lvImages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.col_s_imgKey,
             this.col_s_imgPath,
             this.col_s_text});
-			this.listView.FullRowSelect = true;
-			this.listView.GridLines = true;
-			this.listView.HideSelection = false;
-			this.listView.Location = new System.Drawing.Point(12, 12);
-			this.listView.MultiSelect = false;
-			this.listView.Name = "listView";
-			this.listView.Size = new System.Drawing.Size(606, 426);
-			this.listView.SmallImageList = this.imageList;
-			this.listView.TabIndex = 0;
-			this.listView.UseCompatibleStateImageBehavior = false;
-			this.listView.View = System.Windows.Forms.View.Details;
-			this.listView.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.lv_col_width_changed);
-			this.listView.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lv_col_width_change);
-			this.listView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lv_small_ItemChecked);
-			this.listView.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
+			this.lvImages.FullRowSelect = true;
+			this.lvImages.GridLines = true;
+			this.lvImages.HideSelection = false;
+			this.lvImages.Location = new System.Drawing.Point(12, 12);
+			this.lvImages.MultiSelect = false;
+			this.lvImages.Name = "listView";
+			this.lvImages.Size = new System.Drawing.Size(606, 426);
+			this.lvImages.SmallImageList = this.imageList;
+			this.lvImages.TabIndex = 0;
+			this.lvImages.UseCompatibleStateImageBehavior = false;
+			this.lvImages.View = System.Windows.Forms.View.Details;
+			this.lvImages.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.lv_col_width_changed);
+			this.lvImages.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lv_col_width_change);
+			this.lvImages.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lv_small_ItemChecked);
+			this.lvImages.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
 			// 
 			// col_s_imgKey
 			// 
@@ -218,7 +218,7 @@
 			this.Controls.Add(this.txtText);
 			this.Controls.Add(this.txtPath);
 			this.Controls.Add(this.txtKey);
-			this.Controls.Add(this.listView);
+			this.Controls.Add(this.lvImages);
 			this.MaximumSize = new System.Drawing.Size(816, 9000);
 			this.Name = "smallImages";
 			this.Text = "frmSmallImages";
@@ -230,7 +230,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.ListView listView;
+		private System.Windows.Forms.ListView lvImages;
 		private System.Windows.Forms.ColumnHeader col_s_imgKey;
 		private System.Windows.Forms.ColumnHeader col_s_imgPath;
 		private System.Windows.Forms.ColumnHeader col_s_text;

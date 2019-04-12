@@ -60,11 +60,11 @@ namespace MDG
 		/// </summary>
 		private void load_listView_from_all()
 		{
-			listView.Items.Clear();
+			lvImages.Items.Clear();
 			int index = 0;
 			foreach (Img.Asset item in Img.Small)
 			{
-				ListViewItem newRow = listView.Items.Add(item.Key);
+				ListViewItem newRow = lvImages.Items.Add(item.Key);
 				newRow.SubItems.Add(item.Path);
 				newRow.SubItems.Add(item.Text);
 				newRow.Checked = item.Check;
@@ -125,8 +125,8 @@ namespace MDG
 		}
 		private void lv_col_width_changed(object sender, ColumnWidthChangedEventArgs e)
 		{
-			if (listView.Columns[e.ColumnIndex].Width > 200)
-				listView.Columns[e.ColumnIndex].Width = 200;
+			if (lvImages.Columns[e.ColumnIndex].Width > 200)
+				lvImages.Columns[e.ColumnIndex].Width = 200;
 			resizeLV();
 		}
 
@@ -135,8 +135,8 @@ namespace MDG
 		/// </summary>
 		private void resizeLV()
 		{
-			listView.Width = listView.Columns[0].Width + listView.Columns[1].Width + listView.Columns[2].Width + 20;
-			int distLvEnd = listView.Size.Width + 12;
+			lvImages.Width = lvImages.Columns[0].Width + lvImages.Columns[1].Width + lvImages.Columns[2].Width + 20;
+			int distLvEnd = lvImages.Size.Width + 12;
 			int txtKeyY = txtKey.Location.Y;
 			int txtPathY = txtPath.Location.Y;
 			int txtTextY = txtText.Location.Y;
@@ -244,7 +244,7 @@ namespace MDG
 					}
 					else
 					{
-						listView.Items[lv_sel_index].ImageKey = "EmptyImage";
+						lvImages.Items[lv_sel_index].ImageKey = "EmptyImage";
 						//imageList.Images.RemoveByKey(old_key);
 						//int imgind = imageList.Images.IndexOfKey(key);
 						//imageList.Images[imgind] = null;
@@ -262,12 +262,12 @@ namespace MDG
 					}
 				}
 
-				ListViewItem item = listView.Items[lv_sel_index];
+				ListViewItem item = lvImages.Items[lv_sel_index];
 				item.SubItems[0].Text = key;
 				item.SubItems[1].Text = path;
 				item.SubItems[2].Text = text;
 				item.ImageKey = key;
-				listView.Items[lv_sel_index] = item;
+				lvImages.Items[lv_sel_index] = item;
 			}
 		}
 
@@ -309,27 +309,27 @@ namespace MDG
 		{
 			if (selectedLVItemAvaliable)
 			{
-				listView.Items[lv_sel_index].Remove();
+				lvImages.Items[lv_sel_index].Remove();
 
 				Img.Small = IP.removeAssetByIndex(Img.Small, lv_sel_index);
 
 				try
 				{
-					listView.Items[lv_sel_index].Selected = true;
+					lvImages.Items[lv_sel_index].Selected = true;
 				} catch (Exception) {
 					try
 					{
-						listView.Items[lv_sel_index - 1].Selected = true;
+						lvImages.Items[lv_sel_index - 1].Selected = true;
 					} catch (Exception) { }
 				}
 
-				listView.Select();
+				lvImages.Select();
 			}
 		}
 
 		private void btnSort_Click(object _sender, EventArgs e)
 		{
-			if (selectedLVItemAvaliable && listView.Items.Count > 1)
+			if (selectedLVItemAvaliable && lvImages.Items.Count > 1)
 			{
 				Button sender = (Button)_sender;
 				string uORd = sender.AccessibleDescription;
@@ -346,24 +346,24 @@ namespace MDG
 
 						_updateListViewItem(new_asset, lv_sel_index);
 						_updateListViewItem(old_asset, lv_sel_index - 1);
-						listView.Items[lv_sel_index - 1].Selected = true;
+						lvImages.Items[lv_sel_index - 1].Selected = true;
 					}
 					else
 					{
-						int last_index = listView.Items.Count - 1;
+						int last_index = lvImages.Items.Count - 1;
 						Img.Asset old_asset = Img.Small[lv_sel_index];
 
-						listView.Items[lv_sel_index].Remove();
+						lvImages.Items[lv_sel_index].Remove();
 						Img.Small = IP.removeAssetByIndex(Img.Small, lv_sel_index);
 						Img.Small = IP.insertAssetByIndex(Img.Small, old_asset);
 
 						_addListViewItem(old_asset);
-						listView.Items[last_index].Selected = true;
+						lvImages.Items[last_index].Selected = true;
 					}
 				}
 				else if (uORd == "d")
 				{
-					if (lv_sel_index < listView.Items.Count - 1)
+					if (lv_sel_index < lvImages.Items.Count - 1)
 					{
 						Img.Asset old_asset = Img.Small[lv_sel_index];
 						Img.Asset new_asset = Img.Small[lv_sel_index + 1];
@@ -374,7 +374,7 @@ namespace MDG
 
 						_updateListViewItem(new_asset, lv_sel_index);
 						_updateListViewItem(old_asset, lv_sel_index + 1);
-						listView.Items[lv_sel_index + 1].Selected = true;
+						lvImages.Items[lv_sel_index + 1].Selected = true;
 
 					}
 					else
@@ -386,7 +386,7 @@ namespace MDG
 						Img.Small = IP.insertAssetByIndex(Img.Small, old_asset, first_index);
 
 						load_listView_from_all();
-						listView.Items[first_index].Selected = true;
+						lvImages.Items[first_index].Selected = true;
 					}
 				}
 			}
@@ -394,7 +394,7 @@ namespace MDG
 
 		private void _updateListViewItem(Img.Asset asset, int index)
 		{
-			ListViewItem item = listView.Items[index];
+			ListViewItem item = lvImages.Items[index];
 
 			item.SubItems[0].Text = asset.Key;
 			item.SubItems[1].Text = asset.Path;
@@ -402,13 +402,13 @@ namespace MDG
 			item.ImageKey = asset.Key;
 			item.Checked = asset.Check;
 
-			listView.Items[index] = item;
+			lvImages.Items[index] = item;
 
 		}
 
 		private void _addListViewItem(Img.Asset asset, int index = -1)
 		{
-			ListViewItem newRow = listView.Items.Add(asset.Key);
+			ListViewItem newRow = lvImages.Items.Add(asset.Key);
 			newRow.SubItems.Add(asset.Path);
 			newRow.SubItems.Add(asset.Text);
 			newRow.Checked = asset.Check;
