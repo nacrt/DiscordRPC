@@ -402,60 +402,30 @@ namespace MDG
 				Button sender = (Button)_sender;
 				string uORd = sender.AccessibleDescription;
 
-				if (uORd == "u")
+				if ((uORd == "u" && lv_sel_index > 0) || (uORd == "d" && lv_sel_index < lvImages.Items.Count - 1))
 				{
-					if (lv_sel_index > 0)
-					{
-						Img.Asset old_asset = Img.Small[lv_sel_index];
-						Img.Asset new_asset = Img.Small[lv_sel_index - 1];
+					int offset = (uORd == "u") ? -1 : +1;
+					Img.Asset old_asset = Img.Small[lv_sel_index];
+					Img.Asset new_asset = Img.Small[lv_sel_index + offset];
 
-						Img.Small[lv_sel_index] = new_asset;
-						Img.Small[lv_sel_index - 1] = old_asset;
+					Img.Small[lv_sel_index] = new_asset;
+					Img.Small[lv_sel_index + offset] = old_asset;
 
-						_updateListViewItem(new_asset, lv_sel_index);
-						_updateListViewItem(old_asset, lv_sel_index - 1);
-						lvImages.Items[lv_sel_index - 1].Selected = true;
-					}
-					else
-					{
-						int last_index = lvImages.Items.Count - 1;
-						Img.Asset old_asset = Img.Small[lv_sel_index];
+					_updateListViewItem(new_asset, lv_sel_index);
+					_updateListViewItem(old_asset, lv_sel_index + offset);
+					lvImages.Items[lv_sel_index + offset].Selected = true;
 
-						lvImages.Items[lv_sel_index].Remove();
-						Img.Small = IP.removeAssetByIndex(Img.Small, lv_sel_index);
-						Img.Small = IP.insertAssetByIndex(Img.Small, old_asset);
-
-						_addListViewItem(old_asset);
-						lvImages.Items[last_index].Selected = true;
-					}
 				}
-				else if (uORd == "d")
+				else
 				{
-					if (lv_sel_index < lvImages.Items.Count - 1)
-					{
-						Img.Asset old_asset = Img.Small[lv_sel_index];
-						Img.Asset new_asset = Img.Small[lv_sel_index + 1];
+					int index = (uORd == "u") ? lvImages.Items.Count - 1 : 0;
+					Img.Asset old_asset = Img.Small[lv_sel_index];
 
+					Img.Small = IP.removeAssetByIndex(Img.Small, lv_sel_index);
+					Img.Small = IP.insertAssetByIndex(Img.Small, old_asset, index);
 
-						Img.Small[lv_sel_index] = new_asset;
-						Img.Small[lv_sel_index + 1] = old_asset;
-
-						_updateListViewItem(new_asset, lv_sel_index);
-						_updateListViewItem(old_asset, lv_sel_index + 1);
-						lvImages.Items[lv_sel_index + 1].Selected = true;
-
-					}
-					else
-					{
-						int first_index = 0;
-						Img.Asset old_asset = Img.Small[lv_sel_index];
-
-						Img.Small = IP.removeAssetByIndex(Img.Small, lv_sel_index);
-						Img.Small = IP.insertAssetByIndex(Img.Small, old_asset, first_index);
-
-						load_listView_from_all();
-						lvImages.Items[first_index].Selected = true;
-					}
+					load_listView_from_all();
+					lvImages.Items[index].Selected = true;
 				}
 			}
 		}
@@ -486,22 +456,19 @@ namespace MDG
 			setLvColor(newRow, asset.Check);
 		}
 
-		private void btnSave_Click(object sender, EventArgs e)
-		{
-			IP.saveToFile(Img.Small, folder_path + file_name);
-		}
+		private void btnSave_Click(object sender, EventArgs e) => IP.saveToFile(Img.Small, folder_path + file_name);
 
 		private void lvImages_DoubleClick(object sender, EventArgs e)
 		{
-			if (lv_sel_avaliable)
-			{
-				_toggleusage();
-			}
+			if (lv_sel_avaliable) _toggleusage();
 		}
 
 		private void chkHideUnusedAssets_CheckedChanged(object sender, EventArgs e)
 		{
 			load_listView_from_all();
+
+			btnSortUp.Enabled = !chkHideUnusedAssets.Checked;
+			btnSortDown.Enabled = !chkHideUnusedAssets.Checked;
 		}
 	}
 }
