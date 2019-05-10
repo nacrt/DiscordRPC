@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MDG.AssetCollection;
 
 namespace MDG
 {
@@ -15,16 +16,17 @@ namespace MDG
 	{
 		/// makes sure you can open it again :)
 		private void frmimages_closed(object sender, FormClosedEventArgs e) => Main.opendLarge = false;
+		private void btnClose_Click(object sender, EventArgs e) => Close();
 
-		private static long client_id;
-		private static string folder_path;
-		private static string file_name = "largeImagesIndex.txt";
-		private static string images_folder = "largeImages";
-		private static string images_path;
+		private long client_id;
+		private string folder_path;
+		private string file_name = "largeImagesIndex.txt";
+		private string images_folder = "largeImages";
+		private string images_path;
 
-		private static int lv_sel_index;
-		private static bool selectedLVItemAvaliable = false;
-
+		private int lv_sel_index;
+		private bool lv_sel_avaliable = false;
+		private ListViewItem lv_sel_item;
 
 		public largeImages(long id)
 		{
@@ -38,14 +40,14 @@ namespace MDG
 
 			{ /// load_imageList_from_keys(); loads all images for List View
 				int index = 0;
-				foreach (Img.Asset item in Img.Large)
+				foreach (Images.Asset item in Images.Large)
 				{
 					string key = item.Key;
 					try
 					{
-						if (File.Exists(images_path + Img.Large[index].Path))
+						if (File.Exists(images_path + Images.Large[index].Path))
 						{
-							Image img = Image.FromFile(images_path + Img.Large[index].Path);
+							Image img = Image.FromFile(images_path + Images.Large[index].Path);
 							imageList.Images.Add(key, img);
 						}
 					}
@@ -62,64 +64,60 @@ namespace MDG
 		{
 			lvImages.Items.Clear();
 			int index = 0;
-			foreach (Img.Asset item in Img.Large)
+			foreach (Images.Asset item in Images.Large)
 			{
-				ListViewItem newRow = lvImages.Items.Add(item.Key);
-				newRow.SubItems.Add(item.Path);
-				newRow.SubItems.Add(item.Text);
-				newRow.Checked = item.Check;
-				newRow.ImageKey = item.Key;
-				index++;
+				if (chkHideUnusedAssets.Checked)
+				{
+					if (item.Check)
+					{
+						_addListViewItem(item);
+					}
+				}
+				else
+				{
+					_addListViewItem(item);
+				}
+
 			}
 		}
 
 
-		/// <summary>
-		/// Sets the Text Box Texts
-		/// </summary>
-		/// <param name="_sender"></param>
-		/// <param name="e"></param>
-		private void listView_SelectedIndexChanged(object _sender, EventArgs e)
-		{
-			ListView sender = (ListView)_sender;
-			_checkselectedindexava(sender);
-		}
+
 
 		/// <summary>
 		/// Sets the Text Box Texts
 		/// </summary>
-		private void _checkselectedindexava(ListView sender)
+		private void listView_SelectedIndexChanged(object _sender, EventArgs e)
+		{
+			ListView sender = (ListView)_sender;
+			_checkSelectedIndexAva(sender);
+		}
+
+		private void btnTxtChangeKeys_Click(object sender, EventArgs e) => _txtKeysChange();
+		private void _checkSelectedIndexAva(ListView sender)
 		{
 			if (sender.SelectedItems.Count == 1)
 			{
 				lv_sel_index = sender.SelectedIndices[0];
-
-				selectedLVItemAvaliable = true;
-				txtKey.Text = Img.Large[lv_sel_index].Key;
-				txtPath.Text = Img.Large[lv_sel_index].Path;
-				txtText.Text = Img.Large[lv_sel_index].Text;
+				lv_sel_avaliable = true;
+				lv_sel_item = sender.SelectedItems[0];
+				txtKey.Text = Images.Large[lv_sel_index].Key;
+				txtPath.Text = Images.Large[lv_sel_index].Path;
+				txtText.Text = Images.Large[lv_sel_index].Text;
 			}
 			else
 			{
-				selectedLVItemAvaliable = false;
+				lv_sel_avaliable = false;
 				txtKey.Text = "";
 				txtPath.Text = "";
 				txtText.Text = "";
 			}
 		}
 
-		private void btnTxtChangeKeys_Click(object sender, EventArgs e)
-		{
-			_txtKeysChange();
-		}
-
-
 
 		/// <summary>
 		/// List View Collumn resize functions
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
 		private void lv_col_width_change(object sender, ColumnWidthChangingEventArgs e)
 		{
 			if (e.NewWidth > 200)
@@ -140,42 +138,124 @@ namespace MDG
 		{
 			lvImages.Width = lvImages.Columns[0].Width + lvImages.Columns[1].Width + lvImages.Columns[2].Width + 20;
 			int distLvEnd = lvImages.Size.Width + 12;
-			int txtKeyY = txtKey.Location.Y;
-			int txtPathY = txtPath.Location.Y;
-			int txtTextY = txtText.Location.Y;
-			int btnTCKY = btnTxtChangeKeys.Location.Y;
-			int btnCloseY = btnClose.Location.Y;
-			int btnARKY = btnTxtAddKeys.Location.Y;
-			int btnTDKY = btnTxtDeleteKeys.Location.Y;
-			int btnSUY = btnSortUp.Location.Y;
-			int btnSDY = btnSortDown.Location.Y;
-			int btnSaveY = btnSave.Location.Y;
-
 
 			int distTxtToLv = 6;
-			int distafterlv = distLvEnd + distTxtToLv;
-			txtKey.Location = new Point(distafterlv, txtKeyY);
-			txtPath.Location = new Point(distafterlv, txtPathY);
-			txtText.Location = new Point(distafterlv, txtTextY);
-			btnTxtChangeKeys.Location = new Point(distafterlv, btnTCKY);
-			btnClose.Location = new Point(distafterlv, btnCloseY);
-			btnTxtAddKeys.Location = new Point(distafterlv, btnARKY);
-			btnTxtDeleteKeys.Location = new Point(distafterlv, btnTDKY);
-			btnSortUp.Location = new Point(distafterlv, btnSUY);
-			btnSortDown.Location = new Point(distafterlv + 80, btnSDY);
-			btnSave.Location = new Point(distafterlv, btnSaveY);
+			int afterLvX = distLvEnd + distTxtToLv;
+			int x = afterLvX;
+
+			List<TextBox> txts = new List<TextBox>(0);
+			txts.Add(txtKey);
+			txts.Add(txtPath);
+			txts.Add(txtText);
+			foreach (TextBox item in txts)
+			{
+				int y = item.Location.Y;
+				int offset = 0;
+				int.TryParse(item.AccessibleDescription, out offset);
+				item.Location = new Point(x + offset, y);
+
+			}
+
+			List<Button> btns = new List<Button>(0);
+			btns.Add(btnTxtChangeKeys);
+			btns.Add(btnClose);
+			btns.Add(btnTxtAddKeys);
+			btns.Add(btnTxtDeleteKeys);
+			btns.Add(btnSortUp);
+			btns.Add(btnSortDown);
+			btns.Add(btnSave);
+			btns.Add(btnToggleUsage);
+			btns.Add(btnToggleSingleAsset);
+			foreach (Button item in btns)
+			{
+				int y = item.Location.Y;
+				int offset = 0;
+				int.TryParse(item.AccessibleDescription, out offset);
+				item.Location = new Point(x + offset, y);
+			}
+
+			List<CheckBox> chks = new List<CheckBox>(0);
+			chks.Add(chkHideUnusedAssets);
+			foreach (CheckBox item in chks)
+			{
+				int y = item.Location.Y;
+				int offset = 0;
+				int.TryParse(item.AccessibleDescription, out offset);
+				item.Location = new Point(x + offset, y);
+			}
 		}
 
 
 		/// <summary>
 		/// Updates the Used state of the key
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lv_small_ItemChecked(object sender, ItemCheckedEventArgs e)
+		private void lv_large_ItemChecked(object _sender, ItemCheckedEventArgs e)
 		{
-			Img.Large[e.Item.Index].Check = e.Item.Checked;
+			Images.Uncheck_All(ref Images.Large);
+			load_listView_from_all();
+			Images.Large[e.Item.Index].Check = e.Item.Checked;
 		}
+
+		private void btnToggleUsage_Click(object sender, EventArgs e)
+		{
+			if (lv_sel_avaliable)
+			{
+				_toggleusage();
+			}
+		}
+
+		private void _toggleusage()
+		{
+			bool newCheck = !Images.Large[lv_sel_index].Check;
+			Images.Large[lv_sel_index].Check = newCheck;
+			setLvColor(lvImages.SelectedItems[0], newCheck);
+			if (chkHideUnusedAssets.Checked && !newCheck)
+			{
+				lvImages.Items[lv_sel_index].Remove();
+				try
+				{
+					lvImages.Items[lv_sel_index].Selected = true;
+					chkHideUnusedAssets.Select();
+				}
+				catch (Exception)
+				{
+					try
+					{
+						lvImages.Items[lv_sel_index - 1].Selected = true;
+						chkHideUnusedAssets.Select();
+					}
+					catch (Exception) { }
+				}
+			}
+
+			if (Images.Large_uses_only_one_asset && lv_sel_avaliable)
+			{
+				Images.Uncheck_All(ref Images.Large);
+				Images.Large[lv_sel_index].Check = true;
+				int former_index = lv_sel_index;
+				load_listView_from_all();
+				lvImages.Items[former_index].Selected = true;
+			}
+
+			if (lvImages.Items.Count == 0)
+			{
+				try
+				{
+					Images.Large[0].Check = true;
+					int index = 0;
+					foreach (Images.Asset asset in Images.Large)
+						_updateListViewItem(asset, index++);
+				} catch (Exception) { }
+			}
+		}
+
+		public void setLvColor(ListViewItem item, bool selected)
+		{
+			item.BackColor = (selected) ? Color.FromArgb(154, 173, 224) : Color.FromKnownColor(KnownColor.WhiteSmoke);
+		}
+
+
+
 
 		private void keydownEnter(object sender, KeyEventArgs e)
 		{
@@ -192,20 +272,20 @@ namespace MDG
 		/// </summary>
 		private void _txtKeysChange()
 		{
-			if (selectedLVItemAvaliable)
+			if (lv_sel_avaliable)
 			{
 
 				string key = txtKey.Text.Trim();
 				string path = txtPath.Text.Trim();
 				string text = txtText.Text.Trim();
 
-				string old_key = Img.Large[lv_sel_index].Key;
-				string old_path = Img.Large[lv_sel_index].Path;
-				string old_text = Img.Large[lv_sel_index].Text;
+				string old_key = Images.Large[lv_sel_index].Key;
+				string old_path = Images.Large[lv_sel_index].Path;
+				string old_text = Images.Large[lv_sel_index].Text;
 
-				Img.Large[lv_sel_index].Key = key;
-				Img.Large[lv_sel_index].Path = path;
-				Img.Large[lv_sel_index].Text = text;
+				Images.Large[lv_sel_index].Key = key;
+				Images.Large[lv_sel_index].Path = path;
+				Images.Large[lv_sel_index].Text = text;
 
 
 				if (File.Exists(images_path + path))
@@ -214,7 +294,7 @@ namespace MDG
 				}
 				else
 				{
-					//listView.Items[lv_sel_index].ImageKey = "EmptyImage";
+					lvImages.Items[lv_sel_index].ImageKey = "noimage";
 				}
 
 
@@ -272,45 +352,35 @@ namespace MDG
 
 		private void btnTxtAddKeys_Click(object sender, EventArgs e)
 		{
-			Img.Asset[] newAssets = new Img.Asset[Img.Large.Length + 1];
+			Images.Asset[] newAssets = new Images.Asset[Images.Large.Length + 1];
 
 			int index = 0;
-			foreach (Img.Asset asset in Img.Large)
+			foreach (Images.Asset asset in Images.Large)
 			{
-				newAssets[index] = Img.Large[index];
+				newAssets[index] = Images.Large[index];
 				index++;
 			}
 
-			newAssets[Img.Large.Length].Check = true;
-			newAssets[Img.Large.Length].Key = txtKey.Text;
-			newAssets[Img.Large.Length].Path = txtPath.Text;
-			newAssets[Img.Large.Length].Text = txtText.Text;
+			newAssets[Images.Large.Length].Check = true;
+			newAssets[Images.Large.Length].Key = txtKey.Text;
+			newAssets[Images.Large.Length].Path = txtPath.Text;
+			newAssets[Images.Large.Length].Text = txtText.Text;
 
-			Img.Large = newAssets;
+			Images.Large = newAssets;
 
-			Img.Asset item = Img.Large[Img.Large.Length - 1];
+			Images.Asset item = Images.Large[Images.Large.Length - 1];
 
 			_addListViewItem(item);
 
 		}
 
-		/// <summary>
-		/// add a callback!!!!!!!
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void btnClose_Click(object sender, EventArgs e)
-		{
-			this.Close();
-		}
-
 		private void btnTxtDeleteKeys_Click(object sender, EventArgs e)
 		{
-			if (selectedLVItemAvaliable)
+			if (lv_sel_avaliable)
 			{
 				lvImages.Items[lv_sel_index].Remove();
 
-				Img.Large = IP.removeAssetByIndex(Img.Large, lv_sel_index);
+				Images.Large = IP.removeAssetByIndex(Images.Large, lv_sel_index);
 
 				try
 				{
@@ -331,70 +401,40 @@ namespace MDG
 
 		private void btnSort_Click(object _sender, EventArgs e)
 		{
-			if (selectedLVItemAvaliable && lvImages.Items.Count > 1)
+			if (lv_sel_avaliable && lvImages.Items.Count > 1)
 			{
 				Button sender = (Button)_sender;
 				string uORd = sender.AccessibleDescription;
 
-				if (uORd == "u")
+				if ((uORd == "u" && lv_sel_index > 0) || (uORd == "d" && lv_sel_index < lvImages.Items.Count - 1))
 				{
-					if (lv_sel_index > 0)
-					{
-						Img.Asset old_asset = Img.Large[lv_sel_index];
-						Img.Asset new_asset = Img.Large[lv_sel_index - 1];
+					int offset = (uORd == "u") ? -1 : +1;
+					Images.Asset old_asset = Images.Large[lv_sel_index];
+					Images.Asset new_asset = Images.Large[lv_sel_index + offset];
 
-						Img.Large[lv_sel_index] = new_asset;
-						Img.Large[lv_sel_index - 1] = old_asset;
+					Images.Large[lv_sel_index] = new_asset;
+					Images.Large[lv_sel_index + offset] = old_asset;
 
-						_updateListViewItem(new_asset, lv_sel_index);
-						_updateListViewItem(old_asset, lv_sel_index - 1);
-						lvImages.Items[lv_sel_index - 1].Selected = true;
-					}
-					else
-					{
-						int last_index = lvImages.Items.Count - 1;
-						Img.Asset old_asset = Img.Large[lv_sel_index];
+					_updateListViewItem(new_asset, lv_sel_index);
+					_updateListViewItem(old_asset, lv_sel_index + offset);
+					lvImages.Items[lv_sel_index + offset].Selected = true;
 
-						lvImages.Items[lv_sel_index].Remove();
-						Img.Large = IP.removeAssetByIndex(Img.Large, lv_sel_index);
-						Img.Large = IP.insertAssetByIndex(Img.Large, old_asset);
-
-						_addListViewItem(old_asset);
-						lvImages.Items[last_index].Selected = true;
-					}
 				}
-				else if (uORd == "d")
+				else
 				{
-					if (lv_sel_index < lvImages.Items.Count - 1)
-					{
-						Img.Asset old_asset = Img.Large[lv_sel_index];
-						Img.Asset new_asset = Img.Large[lv_sel_index + 1];
+					int index = (uORd == "u") ? lvImages.Items.Count - 1 : 0;
+					Images.Asset old_asset = Images.Large[lv_sel_index];
 
+					Images.Large = IP.removeAssetByIndex(Images.Large, lv_sel_index);
+					Images.Large = IP.insertAssetByIndex(Images.Large, old_asset, index);
 
-						Img.Large[lv_sel_index] = new_asset;
-						Img.Large[lv_sel_index + 1] = old_asset;
-
-						_updateListViewItem(new_asset, lv_sel_index);
-						_updateListViewItem(old_asset, lv_sel_index + 1);
-						lvImages.Items[lv_sel_index + 1].Selected = true;
-
-					}
-					else
-					{
-						int first_index = 0;
-						Img.Asset old_asset = Img.Large[lv_sel_index];
-
-						Img.Large = IP.removeAssetByIndex(Img.Large, lv_sel_index);
-						Img.Large = IP.insertAssetByIndex(Img.Large, old_asset, first_index);
-
-						load_listView_from_all();
-						lvImages.Items[first_index].Selected = true;
-					}
+					load_listView_from_all();
+					lvImages.Items[index].Selected = true;
 				}
 			}
 		}
 
-		private void _updateListViewItem(Img.Asset asset, int index)
+		private void _updateListViewItem(Images.Asset asset, int index)
 		{
 			ListViewItem item = lvImages.Items[index];
 
@@ -403,14 +443,14 @@ namespace MDG
 			item.SubItems[2].Text = asset.Text;
 			item.ImageKey = asset.Key;
 			item.Checked = asset.Check;
-
+			item.BackColor = (asset.Check) ?
+				Color.FromArgb(154, 173, 224) : Color.FromKnownColor(KnownColor.WhiteSmoke);
 			lvImages.Items[index] = item;
 
 		}
 
-		private void _addListViewItem(Img.Asset asset, int index = -1)
+		private void _addListViewItem(Images.Asset asset)
 		{
-
 			ListViewItem newRow = lvImages.Items.Add(asset.Key);
 			newRow.SubItems.Add(asset.Path);
 			newRow.SubItems.Add(asset.Text);
@@ -418,16 +458,35 @@ namespace MDG
 			newRow.ImageKey = asset.Key;
 			newRow.Checked = asset.Check;
 			newRow.Selected = true;
-
-			if (index != -1)
-			{
-
-			}
+			setLvColor(newRow, asset.Check);
 		}
 
-		private void btnSave_Click(object sender, EventArgs e)
+		private void btnSave_Click(object sender, EventArgs e) => IP.saveAssetToFile(Images.Large, folder_path + file_name);
+
+		private void lvImages_DoubleClick(object sender, EventArgs e)
 		{
-			IP.saveToFile(Img.Large, folder_path + file_name);
+			if (lv_sel_avaliable) _toggleusage();
+		}
+
+		private void chkHideUnusedAssets_CheckedChanged(object sender, EventArgs e)
+		{
+			load_listView_from_all();
+
+			btnSortUp.Enabled = !chkHideUnusedAssets.Checked;
+			btnSortDown.Enabled = !chkHideUnusedAssets.Checked;
+		}
+
+		private void btnToggleSingleAsset_Click(object sender, EventArgs e)
+		{
+			Images.Large_uses_only_one_asset = !Images.Large_uses_only_one_asset;
+			chkHideUnusedAssets.Checked = false;
+			Images.Uncheck_All(ref Images.Large);
+			try
+			{
+				Images.Large[0].Check = true;
+			}
+			catch (Exception) { }
+			load_listView_from_all();
 		}
 	}
 }

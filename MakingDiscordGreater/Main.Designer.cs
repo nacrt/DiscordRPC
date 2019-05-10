@@ -69,12 +69,13 @@
 			// 
 			// menuStrip1
 			// 
+			this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 15F);
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.iDToolStripMenuItem,
             this.configToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(898, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(898, 36);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -83,13 +84,13 @@
 			this.iDToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aDDToolStripMenuItem});
 			this.iDToolStripMenuItem.Name = "iDToolStripMenuItem";
-			this.iDToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+			this.iDToolStripMenuItem.Size = new System.Drawing.Size(98, 32);
 			this.iDToolStripMenuItem.Text = "Client ID";
 			// 
 			// aDDToolStripMenuItem
 			// 
 			this.aDDToolStripMenuItem.Name = "aDDToolStripMenuItem";
-			this.aDDToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+			this.aDDToolStripMenuItem.Size = new System.Drawing.Size(118, 32);
 			this.aDDToolStripMenuItem.Text = "add";
 			this.aDDToolStripMenuItem.Click += new System.EventHandler(this.aDDToolStripMenuItem_Click);
 			// 
@@ -99,7 +100,7 @@
             this.menStripEditSmallImages,
             this.menStripEditLargeImages});
 			this.configToolStripMenuItem.Name = "configToolStripMenuItem";
-			this.configToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+			this.configToolStripMenuItem.Size = new System.Drawing.Size(125, 32);
 			this.configToolStripMenuItem.Text = "Edit Images";
 			this.configToolStripMenuItem.Visible = false;
 			// 
@@ -107,7 +108,7 @@
 			// 
 			this.menStripEditSmallImages.AccessibleDescription = "small";
 			this.menStripEditSmallImages.Name = "menStripEditSmallImages";
-			this.menStripEditSmallImages.Size = new System.Drawing.Size(144, 22);
+			this.menStripEditSmallImages.Size = new System.Drawing.Size(199, 32);
 			this.menStripEditSmallImages.Text = "Small Images";
 			this.menStripEditSmallImages.Click += new System.EventHandler(this.menstripitemimages);
 			// 
@@ -115,7 +116,7 @@
 			// 
 			this.menStripEditLargeImages.AccessibleDescription = "large";
 			this.menStripEditLargeImages.Name = "menStripEditLargeImages";
-			this.menStripEditLargeImages.Size = new System.Drawing.Size(144, 22);
+			this.menStripEditLargeImages.Size = new System.Drawing.Size(199, 32);
 			this.menStripEditLargeImages.Text = "Large Images";
 			this.menStripEditLargeImages.Click += new System.EventHandler(this.menstripitemimages);
 			// 
@@ -136,6 +137,7 @@
 			// lvConnections
 			// 
 			this.lvConnections.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
+			this.lvConnections.AllowDrop = true;
 			this.lvConnections.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.lvConnections.CheckBoxes = true;
@@ -145,10 +147,11 @@
 			this.lvConnections.FullRowSelect = true;
 			this.lvConnections.GridLines = true;
 			this.lvConnections.HideSelection = false;
-			this.lvConnections.Location = new System.Drawing.Point(13, 28);
+			this.lvConnections.Location = new System.Drawing.Point(13, 39);
 			this.lvConnections.MultiSelect = false;
 			this.lvConnections.Name = "lvConnections";
-			this.lvConnections.Size = new System.Drawing.Size(308, 550);
+			this.lvConnections.Size = new System.Drawing.Size(308, 539);
+			this.lvConnections.SmallImageList = this.imageList1;
 			this.lvConnections.TabIndex = 5;
 			this.lvConnections.UseCompatibleStateImageBehavior = false;
 			this.lvConnections.View = System.Windows.Forms.View.Details;
@@ -166,7 +169,7 @@
 			// 
 			// btnUseID
 			// 
-			this.btnUseID.Location = new System.Drawing.Point(326, 108);
+			this.btnUseID.Location = new System.Drawing.Point(326, 120);
 			this.btnUseID.Name = "btnUseID";
 			this.btnUseID.Size = new System.Drawing.Size(78, 43);
 			this.btnUseID.TabIndex = 6;
@@ -177,7 +180,7 @@
 			// chkAutoConnect
 			// 
 			this.chkAutoConnect.Appearance = System.Windows.Forms.Appearance.Button;
-			this.chkAutoConnect.Location = new System.Drawing.Point(326, 27);
+			this.chkAutoConnect.Location = new System.Drawing.Point(326, 39);
 			this.chkAutoConnect.Name = "chkAutoConnect";
 			this.chkAutoConnect.Size = new System.Drawing.Size(77, 75);
 			this.chkAutoConnect.TabIndex = 7;
@@ -210,8 +213,9 @@
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Main";
+			this.ShowIcon = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-			this.Text = "^6";
+			this.Text = "Discord Rich Presence Editor";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();

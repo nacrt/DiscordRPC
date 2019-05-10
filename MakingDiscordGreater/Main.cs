@@ -18,6 +18,7 @@ using DiscordRPC.Message;
 using DiscordRPC.RPC;
 using DiscordRPC.RPC.Payload;
 using DiscordRPC.Web;
+using MDG.AssetCollection;
 
 
 namespace MDG
@@ -43,14 +44,14 @@ namespace MDG
 		public static long[] ids;
 		public static string[] ids_name;
 		
-
+		
 
         //Called when your application first starts.
         //For example, just before your main loop, on OnEnable for unity.
         void InitializeConnection()
         {
             client = new DiscordRpcClient(rpc_client_id.ToString());
-
+			
 			client.OnPresenceUpdate += (sender, e) =>
 			{
 				debugThrowNew("Received Update! {0}" + e.Presence.ToString());
@@ -106,6 +107,7 @@ namespace MDG
 
 		private void load_ID()
 		{
+
 			if (File.Exists(@connectionsFileName))
 			{
 				connectionsTXT = File.ReadAllLines(connectionsFileName);
@@ -136,7 +138,10 @@ namespace MDG
 			}
 			else
 			{
-				debugThrowNew("The File " + connectionsFileName + " does not exist or is in the wrong location");
+				//debugThrowNew("The File " + connectionsFileName + " does not exist or is in the wrong location");
+				File.Create(@connectionsFileName);
+				ids = new long[0];
+				ids_name = new string[0];
 			}
 		}
 
@@ -221,7 +226,6 @@ namespace MDG
 				{
 					File.Create(path + "smallImagesIndex.txt");
 				}
-
 
 
 
@@ -338,8 +342,8 @@ namespace MDG
 			set
 			{
 				_opendLarge = value;
-				if (!value && !(Equals(old_img_asset_large,Img.Large)))
-					IP.throwAssetsAtConsole(Img.Large);
+				if (!value && !(Equals(old_img_asset_large,Images.Large)))
+					IP.throwAssetsAtConsole(Images.Large);
 			}
 		}
 		public static bool opendSmall
@@ -360,8 +364,8 @@ namespace MDG
 		private static bool _opendLarge = false;
 		private static bool _opendSmall = false;
 
-		private static Img.Asset[] old_img_asset_small = null;
-		private static Img.Asset[] old_img_asset_large = null;
+		private static Images.Asset[] old_img_asset_small = null;
+		private static Images.Asset[] old_img_asset_large = null;
 
 		private void menstripitemimages(object _sender, EventArgs e)
 		{
@@ -420,34 +424,23 @@ namespace MDG
 			btnOpenInExplorer.Enabled = avaliable;
 			if (avaliable)
 			{
-
-				//object[] arr1 = { 0, 1 };
-				//object[] arr2 = { 2, 3 };
-				//object[] arr_arr = { arr1, arr2 };
-				//object[,] arr_arr_const = { { 0, 1 }, { 0, 2 } };
-				//object obj = ((object[])arr_arr[0])[1];
-				//small[] arrarr = new small[2];
-				//arrarr = returnmystruct(arrarr);
-
-				
-
-				IP.new_all(rpc_client_id);
-				old_img_asset_small = Img.Small;
-				Console.WriteLine(Img.getItemValue(old_img_asset_small) + " :: Small");
-				old_img_asset_large = Img.Large;
-				Console.WriteLine(Img.getItemValue(old_img_asset_large) + " :: Small");
-				_subLog(Img.Small, "Small images");
-				_subLog(Img.Large, "Large images");
+				IP.img_new_all(rpc_client_id);
+				old_img_asset_small = Images.Small;
+				Console.WriteLine(Images.getItemValue(old_img_asset_small) + " :: Small");
+				old_img_asset_large = Images.Large;
+				Console.WriteLine(Images.getItemValue(old_img_asset_large) + " :: Small");
+				_subLog(Images.Small, "Small images");
+				_subLog(Images.Large, "Large images");
 				debugThrowNew("Now using " + rpc_client_id.ToString());
 			}
 		}
 
-		public void _subLog(Img.Asset[] keys, string s_l)
+		public void _subLog(Images.Asset[] keys, string s_l)
 		{
 			string[] s_log = new string[keys.Length];
 			int index = 0;
 			int s_biggestLogStringSize = 2;
-			foreach (Img.Asset item in keys)
+			foreach (Images.Asset item in keys)
 			{
 				string loge = string.Empty;
 				loge += "Used: ";

@@ -46,6 +46,7 @@
 			this.btnSave = new System.Windows.Forms.Button();
 			this.btnToggleUsage = new System.Windows.Forms.Button();
 			this.chkHideUnusedAssets = new System.Windows.Forms.CheckBox();
+			this.btnToggleSingleAsset = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// lvImages
@@ -175,7 +176,7 @@
 			// btnSortUp
 			// 
 			this.btnSortUp.AccessibleDescription = "u";
-			this.btnSortUp.Location = new System.Drawing.Point(624, 164);
+			this.btnSortUp.Location = new System.Drawing.Point(624, 168);
 			this.btnSortUp.Name = "btnSortUp";
 			this.btnSortUp.Size = new System.Drawing.Size(70, 32);
 			this.btnSortUp.TabIndex = 9;
@@ -186,7 +187,7 @@
 			// btnSortDown
 			// 
 			this.btnSortDown.AccessibleDescription = "d";
-			this.btnSortDown.Location = new System.Drawing.Point(624, 202);
+			this.btnSortDown.Location = new System.Drawing.Point(624, 206);
 			this.btnSortDown.Name = "btnSortDown";
 			this.btnSortDown.Size = new System.Drawing.Size(70, 32);
 			this.btnSortDown.TabIndex = 10;
@@ -209,7 +210,7 @@
 			// btnToggleUsage
 			// 
 			this.btnToggleUsage.AccessibleDescription = "80";
-			this.btnToggleUsage.Location = new System.Drawing.Point(704, 164);
+			this.btnToggleUsage.Location = new System.Drawing.Point(704, 168);
 			this.btnToggleUsage.Name = "btnToggleUsage";
 			this.btnToggleUsage.Size = new System.Drawing.Size(70, 70);
 			this.btnToggleUsage.TabIndex = 12;
@@ -220,7 +221,7 @@
 			// chkHideUnusedAssets
 			// 
 			this.chkHideUnusedAssets.Appearance = System.Windows.Forms.Appearance.Button;
-			this.chkHideUnusedAssets.Location = new System.Drawing.Point(624, 240);
+			this.chkHideUnusedAssets.Location = new System.Drawing.Point(624, 244);
 			this.chkHideUnusedAssets.Name = "chkHideUnusedAssets";
 			this.chkHideUnusedAssets.Size = new System.Drawing.Size(150, 20);
 			this.chkHideUnusedAssets.TabIndex = 13;
@@ -229,11 +230,22 @@
 			this.chkHideUnusedAssets.UseVisualStyleBackColor = true;
 			this.chkHideUnusedAssets.CheckedChanged += new System.EventHandler(this.chkHideUnusedAssets_CheckedChanged);
 			// 
+			// btnToggleSingleAsset
+			// 
+			this.btnToggleSingleAsset.Location = new System.Drawing.Point(624, 270);
+			this.btnToggleSingleAsset.Name = "btnToggleSingleAsset";
+			this.btnToggleSingleAsset.Size = new System.Drawing.Size(150, 20);
+			this.btnToggleSingleAsset.TabIndex = 14;
+			this.btnToggleSingleAsset.Text = "Use only one Asset";
+			this.btnToggleSingleAsset.UseVisualStyleBackColor = true;
+			this.btnToggleSingleAsset.Click += new System.EventHandler(this.btnToggleSingleAsset_Click);
+			// 
 			// smallImages
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.btnToggleSingleAsset);
 			this.Controls.Add(this.chkHideUnusedAssets);
 			this.Controls.Add(this.btnToggleUsage);
 			this.Controls.Add(this.btnSave);
@@ -275,5 +287,6 @@
 		private System.Windows.Forms.Button btnSave;
 		private System.Windows.Forms.Button btnToggleUsage;
 		private System.Windows.Forms.CheckBox chkHideUnusedAssets;
+		private System.Windows.Forms.Button btnToggleSingleAsset;
 	}
 }
