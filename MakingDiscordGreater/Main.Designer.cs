@@ -38,6 +38,9 @@
 			this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menStripEditSmallImages = new System.Windows.Forms.ToolStripMenuItem();
 			this.menStripEditLargeImages = new System.Windows.Forms.ToolStripMenuItem();
+			this.DescsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.detailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.statesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.lvConnections = new System.Windows.Forms.ListView();
@@ -72,7 +75,8 @@
 			this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 15F);
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.iDToolStripMenuItem,
-            this.configToolStripMenuItem});
+            this.configToolStripMenuItem,
+            this.DescsToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(898, 36);
@@ -120,6 +124,29 @@
 			this.menStripEditLargeImages.Text = "Large Images";
 			this.menStripEditLargeImages.Click += new System.EventHandler(this.menstripitemimages);
 			// 
+			// DescsToolStripMenuItem
+			// 
+			this.DescsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.detailsToolStripMenuItem,
+            this.statesToolStripMenuItem});
+			this.DescsToolStripMenuItem.Name = "DescsToolStripMenuItem";
+			this.DescsToolStripMenuItem.Size = new System.Drawing.Size(124, 32);
+			this.DescsToolStripMenuItem.Text = "Description";
+			this.DescsToolStripMenuItem.Visible = false;
+			// 
+			// detailsToolStripMenuItem
+			// 
+			this.detailsToolStripMenuItem.Name = "detailsToolStripMenuItem";
+			this.detailsToolStripMenuItem.Size = new System.Drawing.Size(180, 32);
+			this.detailsToolStripMenuItem.Text = "Details";
+			this.detailsToolStripMenuItem.Click += new System.EventHandler(this.detailsToolStripMenuItem_Click);
+			// 
+			// statesToolStripMenuItem
+			// 
+			this.statesToolStripMenuItem.Name = "statesToolStripMenuItem";
+			this.statesToolStripMenuItem.Size = new System.Drawing.Size(180, 32);
+			this.statesToolStripMenuItem.Text = "States";
+			// 
 			// imageList1
 			// 
 			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -156,6 +183,7 @@
 			this.lvConnections.UseCompatibleStateImageBehavior = false;
 			this.lvConnections.View = System.Windows.Forms.View.Details;
 			this.lvConnections.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvConnections_ItemChecked);
+			this.lvConnections.DoubleClick += new System.EventHandler(this.lvConnections_DoubleClick);
 			// 
 			// Client_ID
 			// 
@@ -241,6 +269,9 @@
 		private System.Windows.Forms.CheckBox chkAutoConnect;
 		private System.Windows.Forms.Button btnOpenInExplorer;
 		public System.Windows.Forms.RichTextBox textDebug;
+		private System.Windows.Forms.ToolStripMenuItem DescsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem detailsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem statesToolStripMenuItem;
 	}
 }
 

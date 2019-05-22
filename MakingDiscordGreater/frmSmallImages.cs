@@ -53,6 +53,15 @@ namespace MDG
 				}
 			}
 			load_listView_from_all();
+			AutoCompleteStringCollection col = new AutoCompleteStringCollection();
+			foreach (string file in Directory.GetFiles(Directory.GetCurrentDirectory() + "\\" + images_path))
+			{
+				col.Add(file.Split('\\').Last());
+			}
+			txtPath.AutoCompleteCustomSource = col;
+			txtPath.AutoCompleteSource = AutoCompleteSource.CustomSource;
+			txtPath.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
 		}
 
 		/// <summary>

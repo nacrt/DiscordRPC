@@ -226,6 +226,22 @@ namespace MDG
 				{
 					File.Create(path + "smallImagesIndex.txt");
 				}
+				if (File.Exists(path + Desc.File_Name_Details))
+				{
+
+				}
+				else
+				{
+					File.Create(path + Desc.File_Name_Details);
+				}
+				if (File.Exists(path + Desc.File_Name_States))
+				{
+
+				}
+				else
+				{
+					File.Create(path + Desc.File_Name_States);
+				}
 
 
 
@@ -237,6 +253,8 @@ namespace MDG
 				Directory.CreateDirectory(path + "smallImages");
 				File.Create(path + "largeImagesIndex.txt");
 				File.Create(path + "smallImagesIndex.txt");
+				File.Create(path + Desc.File_Name_Details);
+				File.Create(path + Desc.File_Name_States);
 
 			}
 		}
@@ -422,9 +440,10 @@ namespace MDG
 		{
 			configToolStripMenuItem.Visible = avaliable;
 			btnOpenInExplorer.Enabled = avaliable;
+			DescsToolStripMenuItem.Visible = avaliable;
 			if (avaliable)
 			{
-				IP.img_new_all(rpc_client_id);
+				IP.new_all(rpc_client_id);
 				old_img_asset_small = Images.Small;
 				Console.WriteLine(Images.getItemValue(old_img_asset_small) + " :: Small");
 				old_img_asset_large = Images.Large;
@@ -469,6 +488,28 @@ namespace MDG
 			string mypath = AppDomain.CurrentDomain.BaseDirectory;
 			string thepath = mypath + rpc_client_id.ToString();
 			System.Diagnostics.Process.Start("explorer.exe", thepath);
+		}
+
+		private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			frmDetails frm = new frmDetails();
+			frm.Visible = true;
+			//frm.Show();
+		}
+
+		private void lvConnections_DoubleClick(object sender, EventArgs e)
+		{
+			if (lvConnections.Items.Count == 1)
+			{
+				id_avaliable = true;
+				long old_id = rpc_client_id;
+				rpc_client_id = ids[lvConnections.SelectedItems[0].Index];
+
+				if (old_id != rpc_client_id)
+				{
+					enable_all_if_id_avaliable(id_avaliable);
+				}
+			}
 		}
 	}
 }

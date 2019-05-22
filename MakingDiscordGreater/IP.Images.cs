@@ -109,14 +109,15 @@ namespace MDG.AssetCollection
 		/// Creates those Files if not existent
 		/// </summary>
 		/// <param name="ID">Client ID</param>
-		public static void img_new_all(long _ID)
+		public static void new_all(long _ID)
 		{
 			_checkout(_ID);
 			img_new_s(_ID, true);
 			img_new_l(_ID, true);
+			desc_new_d(_ID, true);
+			desc_new_s(_ID, true);
 			
 		}
-
 		private static void img_new_s(long _ID, bool fromall = false)
 		{
 			if (!fromall)
@@ -276,6 +277,12 @@ namespace MDG.AssetCollection
 
 			if (!File.Exists(_m_folder_path + _l_file_name))
 				File.Create(_m_folder_path + _l_file_name);
+
+			if (!File.Exists(_m_folder_path + Desc.File_Name_Details))
+				File.Create(_m_folder_path + Desc.File_Name_Details);
+
+			if (!File.Exists(_m_folder_path + Desc.File_Name_States))
+				File.Create(_m_folder_path + Desc.File_Name_States);
 		}
 	}
 }

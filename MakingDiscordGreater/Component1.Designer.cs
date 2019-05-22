@@ -1,4 +1,4 @@
-﻿namespace MakingDiscordGreater
+﻿namespace MDG
 {
 	partial class Component1
 	{

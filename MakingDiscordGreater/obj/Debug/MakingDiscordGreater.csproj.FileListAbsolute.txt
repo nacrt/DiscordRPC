@@ -40,3 +40,4 @@ C:\Users\Ben\source\repos\DiscordRPC\MakingDiscordGreater\obj\Debug\MakingDiscor
 C:\Users\Ben\source\repos\DiscordRPC\MakingDiscordGreater\obj\Debug\MakingDiscordGreater.csproj.CopyComplete
 C:\Users\Ben\source\repos\DiscordRPC\MakingDiscordGreater\obj\Debug\MakingDiscordGreater.exe
 C:\Users\Ben\source\repos\DiscordRPC\MakingDiscordGreater\obj\Debug\MakingDiscordGreater.pdb
+C:\Users\Ben\source\repos\DiscordRPC\MakingDiscordGreater\obj\Debug\MDG.frmDetails.resources
