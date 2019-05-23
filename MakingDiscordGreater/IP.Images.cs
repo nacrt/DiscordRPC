@@ -87,7 +87,7 @@ namespace MDG.AssetCollection
 	/// <summary>
 	/// Information Processing
 	/// </summary>
-	public partial class IP
+	partial class IP
 	{
 		public static long ID;
 
@@ -100,6 +100,7 @@ namespace MDG.AssetCollection
 		private static string _l_folder_path = _s_folder_name + "\\\\";
 		private static string _m_folder_name;
 		private static string _m_folder_path;
+		public static string Main_Folder_Path => _m_folder_path;
 
 		private static string[] s_file;
 		private static string[] l_file;

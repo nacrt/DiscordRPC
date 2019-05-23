@@ -71,8 +71,8 @@ namespace MDG.AssetCollection
 			#endregion
 
 			#region Custom Operators
-			public static bool operator ==(Asset a, Asset b) => a.Text == b.Text;
-			public static bool operator !=(Asset a, Asset b) => a.Text != b.Text;
+			public static bool operator ==(Asset a, Asset b) => a.Text == b.Text && a.Enabled == b.Enabled;
+			public static bool operator !=(Asset a, Asset b) => !(a.Text == b.Text && a.Enabled == b.Enabled);
 			public static bool operator & (Asset a, Asset b) => a.Enabled && b.Enabled;
 			public static bool operator | (Asset a, Asset b) => a.Enabled || b.Enabled;
 			public static Asset operator +(Asset a, Asset b) => new Asset(a.Text + b.Text, a.Enabled && b.Enabled);
@@ -110,7 +110,10 @@ namespace MDG.AssetCollection
 			get { return Items[index]; }
 			set { Items[index] = value; }
 		}
-
+		/// <summary>
+		/// Calls the Number of Elements inside the TextAssetCollection
+		/// </summary>
+		public int Count => Items.Count;
 		/// <summary>
 		/// Replaces the List.Add Method for direct Access
 		/// <para>Inserts the <see cref="Asset"/> at the Last Index of the List </para>
@@ -146,8 +149,11 @@ namespace MDG.AssetCollection
 		{
 			Items.RemoveAt(index);
 			for (int i = index; i < Items.Count; i++) Items[i].Index = i;
-			//for (int i = 0; i < Items.Count; i++) Items[i].Index = i;
 		}
+		/// <summary>
+		/// Replaces the Items List With a new, empty list
+		/// </summary>
+		public void Clear() => Items.Clear();
 		/// <summary>
 		/// Disassembles the file, removes all old assets and replaces them with the Dissasembled Contents of the File
 		/// </summary>
@@ -172,12 +178,6 @@ namespace MDG.AssetCollection
 				this.Add(asset);
 			}
 		}
-		/// <summary>
-		/// Replaces the Items List With a new, empty list
-		/// </summary>
-		public void Clear() => Items.Clear();
-
-
 		/// <summary>
 		/// Sets every <see cref="Desc.Asset.Enabled"/> to False or the specified Bool
 		/// </summary>
@@ -215,7 +215,7 @@ namespace MDG.AssetCollection
 		#endregion
 	}
 
-	public partial class IP
+	partial class IP
 	{
 
 		public static string[] _details_file;
@@ -248,7 +248,21 @@ namespace MDG.AssetCollection
 			}
 			catch (Exception e) { System.Windows.Forms.MessageBox.Show(e.Message); }
 			Desc.States.SetContentFromFile(file);
-
+		}
+		/// <summary>
+		/// Stores every Item of the TextAssetCollection to the File with the Specified name
+		/// </summary>
+		/// <param name="filename">The Filename in which the Items are supposed to be stored</param>
+		public static void SaveContentToFile(TextAssetCollection collection, string filename)
+		{
+			string[] newfile = new string[collection.Count];
+			for (int i = 0; i < collection.Count; i++)
+			{
+				Desc.Asset asset = collection[i];
+				string newline = (asset.Enabled ? "1" : "0") + ";" + asset;
+				newfile[i] = newline;
+			}
+			File.WriteAllLines(IP.Main_Folder_Path + filename, newfile);
 		}
 	}
 

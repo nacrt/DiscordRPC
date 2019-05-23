@@ -511,9 +511,14 @@ namespace MDG
 		{
 			if (!frmStatesIsOpen)
 			{
-				frmDetails frm = new frmDetails(ref Desc.States, ref frmStatesIsOpen, Desc.File_Name_States);
-				frm.Visible = true;
 				frmStatesIsOpen = true;
+				frmDescs frm = new frmDescs
+				{
+					Collection = Desc.States,
+					Filename_of_contents = Desc.File_Name_States
+				};
+				frm.startAll();
+				frm.Visible = true;
 			}
 		}
 		private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -521,8 +526,12 @@ namespace MDG
 			if (!frmDetailsIsOpen)
 			{
 				frmDetailsIsOpen = true;
-				frmDetails frm = new frmDetails();
-				//frm.Collection = ref Desc.Details;
+				frmDescs frm = new frmDescs
+				{
+					Collection = Desc.Details,
+					Filename_of_contents = Desc.File_Name_Details
+				};
+				frm.startAll();
 				frm.Visible = true;
 			}
 		}

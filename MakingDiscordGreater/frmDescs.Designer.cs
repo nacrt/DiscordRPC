@@ -1,6 +1,6 @@
 ﻿namespace MDG
 {
-	partial class frmDetails
+	partial class frmDescs
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -87,7 +87,7 @@
 			this.txtDesc.TabIndex = 2;
 			this.txtDesc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDesc_KeyPress);
 			// 
-			// frmDetails
+			// frmDescs
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -95,9 +95,9 @@
 			this.Controls.Add(this.txtDesc);
 			this.Controls.Add(this.lvDescs);
 			this.Controls.Add(this.button1);
-			this.Name = "frmDetails";
-			this.Text = "frmDetails";
-			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmDetails_FormClosed);
+			this.Name = "frmDescs";
+			this.Text = "frmDescs";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDescs_FormClosing);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
