@@ -490,13 +490,6 @@ namespace MDG
 			System.Diagnostics.Process.Start("explorer.exe", thepath);
 		}
 
-		private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			frmDetails frm = new frmDetails(ref Desc.Details);
-			frm.Visible = true;
-			//frm.Show();
-		}
-
 		private void lvConnections_DoubleClick(object sender, EventArgs e)
 		{
 			if (lvConnections.Items.Count == 1)
@@ -512,9 +505,26 @@ namespace MDG
 			}
 		}
 
+		public static bool frmStatesIsOpen = false;
+		public static bool frmDetailsIsOpen = false;
 		private void statesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			if (!frmStatesIsOpen)
+			{
+				frmDetails frm = new frmDetails(ref Desc.States, ref frmStatesIsOpen, Desc.File_Name_States);
+				frm.Visible = true;
+				frmStatesIsOpen = true;
+			}
+		}
+		private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (!frmDetailsIsOpen)
+			{
+				frmDetailsIsOpen = true;
+				frmDetails frm = new frmDetails();
+				//frm.Collection = ref Desc.Details;
+				frm.Visible = true;
+			}
 		}
 	}
 }

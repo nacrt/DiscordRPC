@@ -97,6 +97,7 @@
 			this.Controls.Add(this.button1);
 			this.Name = "frmDetails";
 			this.Text = "frmDetails";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmDetails_FormClosed);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
