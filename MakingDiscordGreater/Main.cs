@@ -492,7 +492,7 @@ namespace MDG
 
 		private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			frmDetails frm = new frmDetails();
+			frmDetails frm = new frmDetails(ref Desc.Details);
 			frm.Visible = true;
 			//frm.Show();
 		}
@@ -510,6 +510,11 @@ namespace MDG
 					enable_all_if_id_avaliable(id_avaliable);
 				}
 			}
+		}
+
+		private void statesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

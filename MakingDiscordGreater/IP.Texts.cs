@@ -40,6 +40,11 @@ namespace MDG.AssetCollection
 			/// Stores if the String can be used or not
 			/// </summary>
 			public bool Enabled = true;
+			/// <summary>
+			/// The Current Index in the <see cref="TextAssetCollection"/>
+			/// </summary>
+			public int Index = -1;
+
 			public override string ToString() => Enabled + ", " + this;
 
 			#region Constructors
@@ -111,7 +116,11 @@ namespace MDG.AssetCollection
 		/// <para>Inserts the <see cref="Asset"/> at the Last Index of the List </para>
 		/// </summary>
 		/// <param name="asset">The New <see cref="Desc.Asset"/></param>
-		public void Add(Desc.Asset asset) => Items.Add(asset);
+		public void Add(Desc.Asset asset)
+		{
+			asset.Index = Items.Count;
+			Items.Add(asset);
+		}
 		/// <summary>
 		/// Replaces the List.Add Method for direct Access
 		/// <para>Inserts the <see cref="Asset"/> at the Last Index of the List </para>
@@ -133,7 +142,12 @@ namespace MDG.AssetCollection
 		/// <para>Removes the <see cref="Desc.Asset"/> at which Index Specified</para>
 		/// </summary>
 		/// <param name="index">The Index of which Asset Will be removed</param>
-		public void RemoveAt(int index) => Items.RemoveAt(index);
+		public void RemoveAt(int index)
+		{
+			Items.RemoveAt(index);
+			for (int i = index; i < Items.Count; i++) Items[i].Index = i;
+			//for (int i = 0; i < Items.Count; i++) Items[i].Index = i;
+		}
 		/// <summary>
 		/// Disassembles the file, removes all old assets and replaces them with the Dissasembled Contents of the File
 		/// </summary>

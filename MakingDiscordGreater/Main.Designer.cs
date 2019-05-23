@@ -137,7 +137,7 @@
 			// detailsToolStripMenuItem
 			// 
 			this.detailsToolStripMenuItem.Name = "detailsToolStripMenuItem";
-			this.detailsToolStripMenuItem.Size = new System.Drawing.Size(180, 32);
+			this.detailsToolStripMenuItem.Size = new System.Drawing.Size(143, 32);
 			this.detailsToolStripMenuItem.Text = "Details";
 			this.detailsToolStripMenuItem.Click += new System.EventHandler(this.detailsToolStripMenuItem_Click);
 			// 
@@ -146,6 +146,7 @@
 			this.statesToolStripMenuItem.Name = "statesToolStripMenuItem";
 			this.statesToolStripMenuItem.Size = new System.Drawing.Size(180, 32);
 			this.statesToolStripMenuItem.Text = "States";
+			this.statesToolStripMenuItem.Click += new System.EventHandler(this.statesToolStripMenuItem_Click);
 			// 
 			// imageList1
 			// 
@@ -193,7 +194,7 @@
 			// collhead_name
 			// 
 			this.collhead_name.Text = "Name";
-			this.collhead_name.Width = 153;
+			this.collhead_name.Width = 275;
 			// 
 			// btnUseID
 			// 

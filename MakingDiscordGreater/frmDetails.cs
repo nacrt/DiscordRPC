@@ -11,19 +11,35 @@ using System.Windows.Forms;
 
 namespace MDG
 {
-	public partial class frmDetails : Form
+	partial class frmDetails : Form
 	{
+		private const bool settextwhenlastselitemchanged = true;
 		private bool lv_item_avaliable => lvDescs.SelectedItems.Count == 1;
 		private ListViewItem lv_item_sel => lv_item_avaliable ? lvDescs.SelectedItems[0] : lv_item_last_sel;
-		private ListViewItem lv_item_last_sel = null;
+		private ListViewItem lv_item_last_sel
+		{
+			get => _lv_item_last_sel;
+			set
+			{
+				_lv_item_last_sel = value;
+				if (settextwhenlastselitemchanged) txtDesc.Text = value.Text;
+			}
+		}
+		private ListViewItem _lv_item_last_sel = null;
 
-		public frmDetails()
+		public frmDetails(ref TextAssetCollection Descs)
 		{
 			InitializeComponent();
 			addAllDescsToLv();
 		}
 		private void button1_Click(object sender, EventArgs e)
 		{
+			//addAllDescsToLv();
+			Desc.Details.RemoveAt(0);
+			foreach (Desc.Asset asset in Desc.Details)
+			{
+				Console.WriteLine(asset.Index);
+			}
 			addAllDescsToLv();
 		}
 
@@ -42,7 +58,15 @@ namespace MDG
 				setLvBackColor(newitem);
 				lvDescs.Items.Add(newitem);
 			}
-			if (lvDescs.Items.Count > 0) lv_item_last_sel = lvDescs.Items[0];
+			if (lvDescs.Items.Count > 0)
+			{
+				lv_item_last_sel = lvDescs.Items[0];
+				txtDesc.Text = lv_item_last_sel.Text;
+			}
+			else
+			{
+				txtDesc.Text = "";
+			}
 		}
 
 		private void lvDescs_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -56,7 +80,8 @@ namespace MDG
 			if (lv_item_avaliable)
 				lv_item_last_sel = lv_item_sel;
 
-			txtDesc.Text = lv_item_sel.Text;
+			if (!settextwhenlastselitemchanged) txtDesc.Text = lv_item_sel.Text;
+
 		}
 
 		private void txtDesc_KeyPress(object sender, KeyPressEventArgs e)
@@ -65,6 +90,7 @@ namespace MDG
 			{
 				lv_item_sel.Text = (sender as TextBox).Text;
 				Desc.Details[lv_item_sel.Index].Text = (sender as TextBox).Text;
+
 			}
 		}
 	}
