@@ -32,6 +32,7 @@
 			this.lvDescs = new System.Windows.Forms.ListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.txtDesc = new System.Windows.Forms.TextBox();
+			this.btnSaveToFile = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -87,11 +88,22 @@
 			this.txtDesc.TabIndex = 2;
 			this.txtDesc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDesc_KeyPress);
 			// 
+			// btnSaveToFile
+			// 
+			this.btnSaveToFile.Location = new System.Drawing.Point(364, 45);
+			this.btnSaveToFile.Name = "btnSaveToFile";
+			this.btnSaveToFile.Size = new System.Drawing.Size(75, 23);
+			this.btnSaveToFile.TabIndex = 3;
+			this.btnSaveToFile.Text = "Save To File";
+			this.btnSaveToFile.UseVisualStyleBackColor = true;
+			this.btnSaveToFile.Click += new System.EventHandler(this.btnSaveToFile_Click);
+			// 
 			// frmDescs
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(691, 450);
+			this.Controls.Add(this.btnSaveToFile);
 			this.Controls.Add(this.txtDesc);
 			this.Controls.Add(this.lvDescs);
 			this.Controls.Add(this.button1);
@@ -109,5 +121,6 @@
 		private System.Windows.Forms.ListView lvDescs;
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.TextBox txtDesc;
+		private System.Windows.Forms.Button btnSaveToFile;
 	}
 }
