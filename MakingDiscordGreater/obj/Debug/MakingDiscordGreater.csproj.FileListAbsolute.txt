@@ -61,3 +61,5 @@ C:\Users\enacr\Source\Repos\DiscordRPC\MakingDiscordGreater\bin\Debug\Newtonsoft
 C:\Users\enacr\Source\Repos\DiscordRPC\MakingDiscordGreater\bin\Debug\Newtonsoft.Json.pdb
 C:\Users\enacr\Source\Repos\DiscordRPC\MakingDiscordGreater\bin\Debug\Newtonsoft.Json.xml
 C:\Users\enacr\Source\Repos\DiscordRPC\MakingDiscordGreater\obj\Debug\MakingDiscordGreater.csproj.CopyComplete
+C:\Users\enacr\source\repos\DiscordRPC\MakingDiscordGreater\obj\Debug\Discord_RPC.exe
+C:\Users\enacr\source\repos\DiscordRPC\MakingDiscordGreater\obj\Debug\Discord_RPC.pdb

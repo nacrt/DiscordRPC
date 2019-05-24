@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C5A49E05-A3CD-4166-98EF-E8B460FA9FDE}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MakingDiscordGreater</RootNamespace>
-    <AssemblyName>MakingDiscordGreater</AssemblyName>
+    <RootNamespace>MDG</RootNamespace>
+    <AssemblyName>Discord_RPC</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -132,6 +132,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
