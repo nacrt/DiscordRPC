@@ -163,7 +163,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\discord-rpc-csharp-master\DiscordRPC\DiscordRPC.csproj">
+    <ProjectReference Include="..\..\discord-rpc-csharp\DiscordRPC\DiscordRPC.csproj">
       <Project>{819d20d6-8d88-45c1-a4d2-aa21f10abd19}</Project>
       <Name>DiscordRPC</Name>
     </ProjectReference>
