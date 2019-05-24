@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MDG.AssetCollection
 {
@@ -45,7 +47,13 @@ namespace MDG.AssetCollection
 			/// </summary>
 			public int Index = -1;
 
-			public override string ToString() => Enabled + ", " + this;
+			public override string ToString() => Index + ": " + Enabled + ", " + this;
+
+			/// <summary>
+			/// Translates the Given Asset into a <see cref="ListViewItem"/>
+			/// </summary>
+			public ListViewItem ListViewItem => new ListViewItem(Text)
+			{ Checked = Enabled, BackColor = IP.getLvIColorValue(Enabled) };
 
 			#region Constructors
 			/// <summary>
@@ -93,7 +101,10 @@ namespace MDG.AssetCollection
 			public static bool operator & (bool a, Asset b) => b.Enabled && a;
 			public static bool operator | (Asset a, bool b) => a.Enabled || b;
 			public static bool operator | (bool a, Asset b) => b.Enabled || a;
-			#endregion 
+
+
+			//public static ListViewItem operator as (ListViewItem a, Asset b) =>;
+			#endregion
 		}
 
 	}
@@ -108,7 +119,18 @@ namespace MDG.AssetCollection
 		public Desc.Asset this[int index]
 		{
 			get { return Items[index]; }
-			set { Items[index] = value; }
+			set { Items[index] = value; Items[index].Index = index; }
+		}
+
+		public bool HasItems => Items.Count != 0;
+
+		/// <summary>
+		/// ReMaps every Index
+		/// </summary>
+		/// <param name="startPos"></param>
+		protected void reDrawAllIndexes(int startPos = 0)
+		{
+			for (int i = startPos; i < Items.Count; i++) Items[i].Index = i;
 		}
 		/// <summary>
 		/// Calls the Number of Elements inside the TextAssetCollection
@@ -141,6 +163,12 @@ namespace MDG.AssetCollection
 		/// <param name="collection">The <see cref="TextAssetCollection" which is supposed to be added/> </param>
 		public void Add(TextAssetCollection collection) { foreach (Desc.Asset asset in collection) Add(asset); }
 		/// <summary>
+		/// Replaces the List.AddRage Method for direct Access
+		/// <para>Adds the Collection at Last Index of the Element</para>
+		/// </summary>
+		/// <param name="collection">The Collection which is supposed to be added</param>
+		public void AddRange(TextAssetCollection collection) => Items.AddRange(collection.Items);
+		/// <summary>
 		/// Replaces the List.RemoveAt Method for direct Access 
 		/// <para>Removes the <see cref="Desc.Asset"/> at which Index Specified</para>
 		/// </summary>
@@ -148,7 +176,7 @@ namespace MDG.AssetCollection
 		public void RemoveAt(int index)
 		{
 			Items.RemoveAt(index);
-			for (int i = index; i < Items.Count; i++) Items[i].Index = i;
+			reDrawAllIndexes(index);
 		}
 		/// <summary>
 		/// Replaces the Items List With a new, empty list
@@ -177,6 +205,50 @@ namespace MDG.AssetCollection
 				
 				this.Add(asset);
 			}
+		}
+		/// <summary>
+		/// Shifts the Item position by the Sepcivied Offset or 
+		/// attaches it to the other end of the List when the index becomes out of range
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <param name="posoffset"></param>
+		public int MoveItemBy(int pos, int offset)
+		{
+			if (Items.Count >= 2)
+			{
+				int posoffset = pos - offset;
+				bool pos_is_ok = posoffset >= 0 && posoffset < Items.Count; 
+
+				if (pos_is_ok)
+				{
+					Desc.Asset item = Items[posoffset];
+					Items[posoffset] = Items[pos];
+					Items[pos] = item;
+				}
+				else
+				{
+					if (posoffset < 0)
+					{
+						posoffset = Items.Count - offset;
+						Desc.Asset item = Items[0];
+						RemoveAt(0);
+						Add(item);
+					}
+					else
+					{
+						posoffset = -1 - offset;
+						Desc.Asset item = Items[pos];
+						RemoveAt(pos);
+						var collection = new TextAssetCollection();
+						collection.Add(item);
+						collection.AddRange(this);
+						Items = collection.Items;
+					}
+				}
+				return posoffset;
+			}
+			return 0;
+
 		}
 		/// <summary>
 		/// Sets every <see cref="Desc.Asset.Enabled"/> to False or the specified Bool
@@ -221,6 +293,12 @@ namespace MDG.AssetCollection
 		public static string[] _details_file;
 		public static string[] _states_file;
 
+		public static Color setLviBackColor(ListViewItem item) =>
+			item.BackColor = getLvIColorValue(item.Checked);
+
+		public static Color getLvIColorValue(bool enabled) => 
+			enabled ? Color.FromArgb(154, 173, 224) : Color.FromKnownColor(KnownColor.WhiteSmoke);
+
 		private static void desc_new_d(long _ID, bool fromall = false)
 		{
 			if (!fromall)
@@ -230,7 +308,7 @@ namespace MDG.AssetCollection
 			{
 				file = File.ReadAllLines(_m_folder_path + Desc.File_Name_Details);
 			}
-			catch (Exception e) { System.Windows.Forms.MessageBox.Show(e.Message); }
+			catch (Exception e) { MessageBox.Show(e.Message); }
 
 			Desc.Details.SetContentFromFile(file);
 

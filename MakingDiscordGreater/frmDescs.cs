@@ -44,27 +44,34 @@ namespace MDG
 			IP.SaveContentToFile(Collection, Filename_of_contents);
 		}
 
-		private void setLvBackColor(ListViewItem item) => 
-			item.BackColor = (item.Checked) ? Color.FromArgb(154, 173, 224) : Color.FromKnownColor(KnownColor.WhiteSmoke);
-
-
 		private void addAllDescsToLv()
 		{
-			lvDescs.Items.Clear();
-			foreach (Desc.Asset asset in Collection)
+			if (lvDescs.Items.Count == Collection.Count)
 			{
-				ListViewItem newitem = new ListViewItem(asset.Text);
-				newitem.Checked = asset.Enabled;
-				setLvBackColor(newitem);
-				lvDescs.Items.Add(newitem);
+				foreach (Desc.Asset asset in Collection)
+				{
+					lvDescs.Items[asset.Index] = asset.ListViewItem;
+				}
 			}
+			else
+			{
+				lvDescs.Items.Clear();
+				foreach (Desc.Asset asset in Collection)
+				{
+					ListViewItem newitem = new ListViewItem(asset.Text);
+					newitem.Checked = asset.Enabled;
+					IP.setLviBackColor(newitem);
+					lvDescs.Items.Add(newitem);
+				}
+			}
+
 			if (lvDescs.Items.Count > 0) lv_item_last_sel = lvDescs.Items[0];
 			else txtDesc.Text = "";
 		}
 
 		private void lvDescs_ItemChecked(object sender, ItemCheckedEventArgs e)
 		{
-			setLvBackColor(e.Item);
+			IP.setLviBackColor(e.Item);
 			Collection[e.Item.Index].Enabled = e.Item.Checked;
 		}
 
@@ -96,10 +103,25 @@ namespace MDG
 		private void btnSaveToFile_Click(object sender, EventArgs e)
 		{
 			IP.SaveContentToFile(Collection, Filename_of_contents);
+		}
 
-			// hi ;)
+		private void btnSort_Clicked(object _sender, EventArgs e)
+		{
+			if (Collection.HasItems)
+			{
+				Button sender = (Button)_sender;
+				int posoffset = Convert.ToInt32(sender.Tag);
+				int pos = lv_item_sel.Index;
 
-			// hi Second test
+
+				Console.WriteLine(Collection[pos]);
+				int newpos = Collection.MoveItemBy(pos, posoffset);
+				Console.WriteLine(Collection[newpos]);
+				addAllDescsToLv();
+				lvDescs.Items[newpos].Selected = true;
+			}
+
+
 		}
 	}
 }
