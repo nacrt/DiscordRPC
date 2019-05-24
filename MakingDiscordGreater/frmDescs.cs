@@ -92,5 +92,10 @@ namespace MDG
 			else if (Filename_of_contents == Desc.File_Name_States)
 				Main.frmStatesIsOpen = false;
 		}
+
+		private void btnSaveToFile_Click(object sender, EventArgs e)
+		{
+			IP.SaveContentToFile(Collection, Filename_of_contents);
+		}
 	}
 }
