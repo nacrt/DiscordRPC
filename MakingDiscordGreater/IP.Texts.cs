@@ -119,7 +119,7 @@ namespace MDG.AssetCollection
 		public Desc.Asset this[int index]
 		{
 			get { return Items[index]; }
-			set { Items[index] = value; Items[index].Index = index; }
+			set { value.Index = index;  Items[index] = value;  }
 		}
 
 		public bool HasItems => Items.Count != 0;
@@ -167,7 +167,7 @@ namespace MDG.AssetCollection
 		/// <para>Adds the Collection at Last Index of the Element</para>
 		/// </summary>
 		/// <param name="collection">The Collection which is supposed to be added</param>
-		public void AddRange(TextAssetCollection collection) => Items.AddRange(collection.Items);
+		public void AddRange(TextAssetCollection collection) { foreach (Desc.Asset asset in collection) Add(asset); }
 		/// <summary>
 		/// Replaces the List.RemoveAt Method for direct Access 
 		/// <para>Removes the <see cref="Desc.Asset"/> at which Index Specified</para>
@@ -175,6 +175,7 @@ namespace MDG.AssetCollection
 		/// <param name="index">The Index of which Asset Will be removed</param>
 		public void RemoveAt(int index)
 		{
+			
 			Items.RemoveAt(index);
 			reDrawAllIndexes(index);
 		}
@@ -216,7 +217,7 @@ namespace MDG.AssetCollection
 		{
 			if (Items.Count >= 2)
 			{
-				int posoffset = pos - offset;
+				int posoffset = pos + offset;
 				bool pos_is_ok = posoffset >= 0 && posoffset < Items.Count; 
 
 				if (pos_is_ok)
@@ -229,14 +230,14 @@ namespace MDG.AssetCollection
 				{
 					if (posoffset < 0)
 					{
-						posoffset = Items.Count - offset;
+						posoffset = Items.Count + offset;
 						Desc.Asset item = Items[0];
 						RemoveAt(0);
 						Add(item);
 					}
 					else
 					{
-						posoffset = -1 - offset;
+						posoffset = -1 + offset;
 						Desc.Asset item = Items[pos];
 						RemoveAt(pos);
 						var collection = new TextAssetCollection();
@@ -245,6 +246,7 @@ namespace MDG.AssetCollection
 						Items = collection.Items;
 					}
 				}
+				reDrawAllIndexes();
 				return posoffset;
 			}
 			return 0;

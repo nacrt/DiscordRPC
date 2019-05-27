@@ -106,7 +106,7 @@
 			this.btnSortUP.Name = "btnSortUP";
 			this.btnSortUP.Size = new System.Drawing.Size(75, 23);
 			this.btnSortUP.TabIndex = 4;
-			this.btnSortUP.Tag = "1";
+			this.btnSortUP.Tag = "-1";
 			this.btnSortUP.Text = "Sort UP";
 			this.btnSortUP.UseVisualStyleBackColor = true;
 			this.btnSortUP.Click += new System.EventHandler(this.btnSort_Clicked);
@@ -117,7 +117,7 @@
 			this.btnSortDOWN.Name = "btnSortDOWN";
 			this.btnSortDOWN.Size = new System.Drawing.Size(75, 23);
 			this.btnSortDOWN.TabIndex = 5;
-			this.btnSortDOWN.Tag = "-1";
+			this.btnSortDOWN.Tag = "+1";
 			this.btnSortDOWN.Text = "Sort DOWN";
 			this.btnSortDOWN.UseVisualStyleBackColor = true;
 			this.btnSortDOWN.Click += new System.EventHandler(this.btnSort_Clicked);
