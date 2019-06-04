@@ -46,6 +46,11 @@ namespace MDG.AssetCollection
 			/// The Current Index in the <see cref="TextAssetCollection"/>
 			/// </summary>
 			public int Index = -1;
+			/// <summary>
+			/// The Color for the ListViewItem based of the enabled State
+			/// </summary>
+			public Color Color =>
+			Enabled ? Color.FromArgb(154, 173, 224) : Color.FromKnownColor(KnownColor.WhiteSmoke);
 
 			public override string ToString() => Index + ": " + Enabled + ", " + this;
 
@@ -53,7 +58,7 @@ namespace MDG.AssetCollection
 			/// Translates the Given Asset into a <see cref="ListViewItem"/>
 			/// </summary>
 			public ListViewItem ListViewItem => new ListViewItem(Text)
-			{ Checked = Enabled, BackColor = IP.getLvIColorValue(Enabled) };
+			{ Checked = Enabled, BackColor = Color };
 
 			#region Constructors
 			/// <summary>
