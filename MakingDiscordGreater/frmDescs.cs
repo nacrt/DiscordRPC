@@ -105,18 +105,13 @@ namespace MDG
 			IP.SaveContentToFile(Collection, Filename_of_contents);
 		}
 
-		private void btnSort_Clicked(object _sender, EventArgs e)
+		private void btnSort_Clicked(object sender, EventArgs e)
 		{
 			if (Collection.HasItems)
 			{
-				Button sender = (Button)_sender;
-				int posoffset = Convert.ToInt32(sender.Tag);
+				int posoffset = Convert.ToInt32((sender as Button).Tag);
 				int pos = lv_item_sel.Index;
-
-
-				Console.WriteLine(Collection[pos]);
 				int newpos = Collection.MoveItemBy(pos, posoffset);
-				Console.WriteLine(Collection[newpos]);
 				addAllDescsToLv();
 				lvDescs.Items[newpos].Selected = true;
 			}
