@@ -47,7 +47,7 @@ namespace MDG.AssetCollection
 			/// </summary>
 			public int Index = -1;
 			/// <summary>
-			/// The Color for the ListViewItem based of the enabled State
+			/// The Color for the <see cref="ListViewItem"/> based of the enabled State
 			/// </summary>
 			public Color Color =>
 			Enabled ? Color.FromArgb(154, 173, 224) : Color.FromKnownColor(KnownColor.WhiteSmoke);
