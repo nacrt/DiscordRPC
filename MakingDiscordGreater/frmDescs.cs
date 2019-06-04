@@ -29,19 +29,16 @@ namespace MDG
 		}
 		private ListViewItem _lv_item_last_sel = null;
 
-		public frmDescs()
-		{
-			InitializeComponent();
-		}
+		public frmDescs() => InitializeComponent();
+		public void startAll() => addAllDescsToLv();
 
-		public void startAll()
+		private void debug_button(object sender, EventArgs e)
 		{
-			addAllDescsToLv();
-		}
-
-		private void button1_Click(object sender, EventArgs e)
-		{
-			IP.SaveContentToFile(Collection, Filename_of_contents);
+			foreach (ListViewItem item in lvDescs.Items)
+			{
+				Console.WriteLine(item.Tag);
+			}
+			Console.WriteLine();
 		}
 
 		private void addAllDescsToLv()
@@ -49,20 +46,13 @@ namespace MDG
 			if (lvDescs.Items.Count == Collection.Count)
 			{
 				foreach (Desc.Asset asset in Collection)
-				{
 					lvDescs.Items[asset.Index] = asset.ListViewItem;
-				}
 			}
 			else
 			{
 				lvDescs.Items.Clear();
 				foreach (Desc.Asset asset in Collection)
-				{
-					ListViewItem newitem = new ListViewItem(asset.Text);
-					newitem.Checked = asset.Enabled;
-					IP.setLviBackColor(newitem);
-					lvDescs.Items.Add(newitem);
-				}
+					lvDescs.Items.Add(asset.ListViewItem);
 			}
 
 			if (lvDescs.Items.Count > 0) lv_item_last_sel = lvDescs.Items[0];
@@ -80,16 +70,6 @@ namespace MDG
 			if (lv_item_avaliable)
 				lv_item_last_sel = lv_item_sel;
 
-		}
-
-		private void txtDesc_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (e.KeyChar == Convert.ToChar(Keys.Enter))
-			{
-				lv_item_sel.Text = (sender as TextBox).Text;
-				Collection[lv_item_sel.Index].Text = (sender as TextBox).Text;
-
-			}
 		}
 
 		private void frmDescs_FormClosing(object sender, FormClosingEventArgs e)
@@ -117,6 +97,50 @@ namespace MDG
 			}
 
 
+		}
+
+		private void lvDescs_AfterLabelEdit(object sender, LabelEditEventArgs e)
+		{
+			Collection[e.Item] = new Desc.Asset(e.Label);
+			txtDesc.Text = e.Label;
+			Console.WriteLine(e.Label);
+			Console.WriteLine();
+			Console.WriteLine(Collection);
+		}
+
+		private void txtPress_on_enter(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				if (lv_item_avaliable)
+				{
+					lv_item_sel.Text = (sender as TextBox).Text;
+					Collection[lv_item_sel.Index].Text = (sender as TextBox).Text;
+				}
+				else
+				{
+					Desc.Asset asset = new Desc.Asset(txtDesc.Text);
+					Collection.Add(asset);
+					lvDescs.Items.Add(asset.ListViewItem);
+
+
+				}
+			}
+		}
+
+		private void lvDesc_on_key_enter(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				if (lv_item_avaliable)
+				{
+					bool newstate = !lv_item_sel.Checked;
+					lv_item_sel.Checked = newstate;
+					Collection[(lv_item_sel.Tag as Desc.Asset).Index].Enabled = newstate;
+
+
+				}
+			}
 		}
 	}
 }

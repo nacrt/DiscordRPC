@@ -45,7 +45,7 @@
 			this.button1.TabIndex = 0;
 			this.button1.Text = "Mighty Debug Button";
 			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.button1.Click += new System.EventHandler(this.debug_button);
 			// 
 			// lvDescs
 			// 
@@ -66,8 +66,10 @@
 			this.lvDescs.TileSize = new System.Drawing.Size(5, 5);
 			this.lvDescs.UseCompatibleStateImageBehavior = false;
 			this.lvDescs.View = System.Windows.Forms.View.Details;
+			this.lvDescs.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lvDescs_AfterLabelEdit);
 			this.lvDescs.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvDescs_ItemChecked);
 			this.lvDescs.SelectedIndexChanged += new System.EventHandler(this.lvDescs_SelectedIndexChanged);
+			this.lvDescs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvDesc_on_key_enter);
 			// 
 			// columnHeader1
 			// 
@@ -88,7 +90,7 @@
 			this.txtDesc.Name = "txtDesc";
 			this.txtDesc.Size = new System.Drawing.Size(316, 26);
 			this.txtDesc.TabIndex = 2;
-			this.txtDesc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDesc_KeyPress);
+			this.txtDesc.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPress_on_enter);
 			// 
 			// btnSaveToFile
 			// 

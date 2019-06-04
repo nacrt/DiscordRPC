@@ -52,13 +52,16 @@ namespace MDG.AssetCollection
 			public Color Color =>
 			Enabled ? Color.FromArgb(154, 173, 224) : Color.FromKnownColor(KnownColor.WhiteSmoke);
 
+			public static Color GetColor(bool enabled) =>
+			enabled ? Color.FromArgb(154, 173, 224) : Color.FromKnownColor(KnownColor.WhiteSmoke);
+
 			public override string ToString() => Index + ": " + Enabled + ", " + this;
 
 			/// <summary>
 			/// Translates the Given Asset into a <see cref="ListViewItem"/>
 			/// </summary>
 			public ListViewItem ListViewItem => new ListViewItem(Text)
-			{ Checked = Enabled, BackColor = Color };
+			{ Checked = Enabled, BackColor = Color, Tag = this };
 
 			#region Constructors
 			/// <summary>
@@ -147,11 +150,16 @@ namespace MDG.AssetCollection
 		}
 		public bool HasItems => Items.Count != 0;
 
+
+		public override string ToString()
+		{
+			string s = string.Empty; foreach (Desc.Asset asset in this) s += asset.ToString() + "\n"; return s;
+		}
 		/// <summary>
 		/// ReMaps every Index
 		/// </summary>
 		/// <param name="startPos"></param>
-		protected void reDrawAllIndexes(int startPos = 0)
+		protected void RedrawIndexes(int startPos = 0)
 		{ for (int i = startPos; i < Items.Count; i++) Items[i].Index = i; }
 		/// <summary>
 		/// Calls the Number of Elements inside the TextAssetCollection
@@ -193,7 +201,7 @@ namespace MDG.AssetCollection
 		public void RemoveAt(int index)
 		{
 			Items.RemoveAt(index);
-			reDrawAllIndexes(index);
+			RedrawIndexes(index);
 		}
 		/// <summary>
 		/// Replaces the Items List With a new, empty list
@@ -310,10 +318,7 @@ namespace MDG.AssetCollection
 		public static string[] _states_file;
 
 		public static Color setLviBackColor(ListViewItem item) =>
-			item.BackColor = getLvIColorValue(item.Checked);
-
-		public static Color getLvIColorValue(bool enabled) => 
-			enabled ? Color.FromArgb(154, 173, 224) : Color.FromKnownColor(KnownColor.WhiteSmoke);
+			item.BackColor = Desc.Asset.GetColor(item.Checked);
 
 		private static void desc_new_d(long _ID, bool fromall = false)
 		{
