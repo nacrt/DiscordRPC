@@ -123,10 +123,28 @@ namespace MDG.AssetCollection
 		/// </summary>
 		public Desc.Asset this[int index]
 		{
-			get { return Items[index]; }
-			set { Items[index] = value; Items[index].Index = index; }
+			get
+			{
+				Desc.Asset asset = Items[index];
+				asset.Index = index;
+				return asset;
+			}
+			set
+			{
+				Desc.Asset asset = value;
+				asset.Index = index;
+				Items[index] = asset;
+			}
 		}
 
+		public int this[Desc.Asset asset]
+		{
+			get
+			{
+				foreach (Desc.Asset item in this) if (item == asset) return item.Index;
+				return -1;
+			}
+		}
 		public bool HasItems => Items.Count != 0;
 
 		/// <summary>
@@ -134,9 +152,7 @@ namespace MDG.AssetCollection
 		/// </summary>
 		/// <param name="startPos"></param>
 		protected void reDrawAllIndexes(int startPos = 0)
-		{
-			for (int i = startPos; i < Items.Count; i++) Items[i].Index = i;
-		}
+		{ for (int i = startPos; i < Items.Count; i++) Items[i].Index = i; }
 		/// <summary>
 		/// Calls the Number of Elements inside the TextAssetCollection
 		/// </summary>
@@ -157,11 +173,7 @@ namespace MDG.AssetCollection
 		/// <para>Enabled state will be Default (True) </para>
 		/// </summary>
 		/// <param name="text">The Text for the asset</param>
-		public void Add(string text)
-		{
-			Desc.Asset asset = new Desc.Asset(text);
-			Items.Add(asset);
-		}
+		public void Add(string text) => Add(new Desc.Asset(text));
 		/// <summary>
 		/// Adds every Asset from the Assetcollection to 
 		/// </summary>
@@ -172,7 +184,7 @@ namespace MDG.AssetCollection
 		/// <para>Adds the Collection at Last Index of the Element</para>
 		/// </summary>
 		/// <param name="collection">The Collection which is supposed to be added</param>
-		public void AddRange(TextAssetCollection collection) => Items.AddRange(collection.Items);
+		public void AddRange(TextAssetCollection collection) { foreach (Desc.Asset asset in collection) Add(asset); }
 		/// <summary>
 		/// Replaces the List.RemoveAt Method for direct Access 
 		/// <para>Removes the <see cref="Desc.Asset"/> at which Index Specified</para>
@@ -193,7 +205,7 @@ namespace MDG.AssetCollection
 		/// <param name="file">The File With the Content</param>
 		public void SetContentFromFile(string[] file)
 		{
-			Clear();
+			this.Clear();
 			foreach (string line in file)
 			{
 				char[] splitter = { ';' };
@@ -207,7 +219,6 @@ namespace MDG.AssetCollection
 					asset.Enabled = false;
 				else if (enabled != "1")
 					asset.Text = enabled + asset;
-				
 				this.Add(asset);
 			}
 		}
@@ -219,31 +230,31 @@ namespace MDG.AssetCollection
 		/// <param name="posoffset"></param>
 		public int MoveItemBy(int pos, int offset)
 		{
-			if (Items.Count >= 2)
+			if (this.Count >= 2)
 			{
-				int posoffset = pos - offset;
+				int posoffset = pos + offset;
 				bool pos_is_ok = posoffset >= 0 && posoffset < Items.Count; 
 
 				if (pos_is_ok)
 				{
-					Desc.Asset item = Items[posoffset];
-					Items[posoffset] = Items[pos];
-					Items[pos] = item;
+					Desc.Asset item = this[posoffset];
+					this[posoffset] = Items[pos];
+					this[pos] = item;
 				}
 				else
 				{
 					if (posoffset < 0)
 					{
-						posoffset = Items.Count - offset;
+						posoffset = Items.Count + offset;
 						Desc.Asset item = Items[0];
-						RemoveAt(0);
-						Add(item);
+						this.RemoveAt(0);
+						this.Add(item);
 					}
 					else
 					{
-						posoffset = -1 - offset;
-						Desc.Asset item = Items[pos];
-						RemoveAt(pos);
+						posoffset = -1 + offset;
+						Desc.Asset item = this[pos];
+						this.RemoveAt(pos);
 						var collection = new TextAssetCollection();
 						collection.Add(item);
 						collection.AddRange(this);
@@ -265,13 +276,13 @@ namespace MDG.AssetCollection
 		}
 
 		#region Implementation for the GetEnumerator method
-		IEnumerator IEnumerable.GetEnumerator() => new TextAssetCollectionEnum(Items);
+		IEnumerator IEnumerable.GetEnumerator() => new TextAssetCollectionEnum(this);
 		private class TextAssetCollectionEnum : IEnumerator
 		{
 			int position = -1;
-			public List<Desc.Asset> Items;
-			public TextAssetCollectionEnum(List<Desc.Asset> Items) => this.Items = Items;
-			public bool MoveNext() => (++position < Items.Count);
+			public TextAssetCollection collection;
+			public TextAssetCollectionEnum(TextAssetCollection collection) => this.collection = collection;
+			public bool MoveNext() => ++position < collection.Count;
 			public void Reset() => position = -1;
 			object IEnumerator.Current => Current;
 			public Desc.Asset Current
@@ -280,7 +291,7 @@ namespace MDG.AssetCollection
 				{
 					try
 					{
-						return Items[position];
+						return collection[position];
 					}
 					catch (IndexOutOfRangeException)
 					{
