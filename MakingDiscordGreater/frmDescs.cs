@@ -46,13 +46,13 @@ namespace MDG
 			if (lvDescs.Items.Count == Collection.Count)
 			{
 				foreach (Desc.Asset asset in Collection)
-					lvDescs.Items[asset.Index] = asset.ListViewItem;
+					lvDescs.Items[asset.Index] = asset;
 			}
 			else
 			{
 				lvDescs.Items.Clear();
 				foreach (Desc.Asset asset in Collection)
-					lvDescs.Items.Add(asset.ListViewItem);
+					lvDescs.Items.Add(asset);
 			}
 
 			if (lvDescs.Items.Count > 0) lv_item_last_sel = lvDescs.Items[0];

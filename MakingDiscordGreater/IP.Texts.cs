@@ -110,8 +110,7 @@ namespace MDG.AssetCollection
 			public static bool operator | (Asset a, bool b) => a.Enabled || b;
 			public static bool operator | (bool a, Asset b) => b.Enabled || a;
 
-
-			//public static ListViewItem operator as (ListViewItem a, Asset b) =>;
+			public static implicit operator ListViewItem(Asset a) => a.ListViewItem;
 			#endregion
 		}
 
