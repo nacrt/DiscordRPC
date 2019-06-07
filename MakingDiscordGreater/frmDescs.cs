@@ -29,16 +29,29 @@ namespace MDG
 		}
 		private ListViewItem _lv_item_last_sel = null;
 
-		public frmDescs() => InitializeComponent();
+		public frmDescs()
+		{
+			InitializeComponent();
+			btnSortUP.Text = "↑";
+			btnSortDOWN.Text = "↓";
+		}
+
 		public void startAll() => addAllDescsToLv();
 
 		private void debug_button(object sender, EventArgs e)
 		{
-			foreach (ListViewItem item in lvDescs.Items)
-			{
-				Console.WriteLine(item.Tag);
-			}
-			Console.WriteLine();
+			//DialogResult r = folderBrowserDialog1.ShowDialog();
+			openFileDialog1.Multiselect = false;
+			Console.WriteLine(openFileDialog1.SafeFileName);
+			openFileDialog1.FileName = "";
+			openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+			openFileDialog1.ShowDialog();
+			Console.WriteLine(openFileDialog1.SafeFileName);
+
+			string f = openFileDialog1.FileName;
+			MessageBox.Show(f);
+			//MessageBox.Show();
+
 		}
 
 		private void addAllDescsToLv()

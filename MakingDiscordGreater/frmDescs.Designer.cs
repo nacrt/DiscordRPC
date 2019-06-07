@@ -35,6 +35,8 @@
 			this.btnSaveToFile = new System.Windows.Forms.Button();
 			this.btnSortUP = new System.Windows.Forms.Button();
 			this.btnSortDOWN = new System.Windows.Forms.Button();
+			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -57,7 +59,6 @@
 			this.lvDescs.FullRowSelect = true;
 			this.lvDescs.GridLines = true;
 			this.lvDescs.HideSelection = false;
-			this.lvDescs.LabelEdit = true;
 			this.lvDescs.Location = new System.Drawing.Point(12, 12);
 			this.lvDescs.MultiSelect = false;
 			this.lvDescs.Name = "lvDescs";
@@ -94,7 +95,7 @@
 			// 
 			// btnSaveToFile
 			// 
-			this.btnSaveToFile.Location = new System.Drawing.Point(364, 45);
+			this.btnSaveToFile.Location = new System.Drawing.Point(576, 58);
 			this.btnSaveToFile.Name = "btnSaveToFile";
 			this.btnSaveToFile.Size = new System.Drawing.Size(75, 23);
 			this.btnSaveToFile.TabIndex = 3;
@@ -104,25 +105,36 @@
 			// 
 			// btnSortUP
 			// 
-			this.btnSortUP.Location = new System.Drawing.Point(364, 75);
+			this.btnSortUP.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnSortUP.Location = new System.Drawing.Point(363, 44);
 			this.btnSortUP.Name = "btnSortUP";
-			this.btnSortUP.Size = new System.Drawing.Size(75, 23);
+			this.btnSortUP.Size = new System.Drawing.Size(65, 65);
 			this.btnSortUP.TabIndex = 4;
 			this.btnSortUP.Tag = "-1";
-			this.btnSortUP.Text = "Sort UP";
+			this.btnSortUP.Text = "↑";
 			this.btnSortUP.UseVisualStyleBackColor = true;
 			this.btnSortUP.Click += new System.EventHandler(this.btnSort_Clicked);
 			// 
 			// btnSortDOWN
 			// 
-			this.btnSortDOWN.Location = new System.Drawing.Point(364, 105);
+			this.btnSortDOWN.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnSortDOWN.Location = new System.Drawing.Point(363, 115);
 			this.btnSortDOWN.Name = "btnSortDOWN";
-			this.btnSortDOWN.Size = new System.Drawing.Size(75, 23);
+			this.btnSortDOWN.Size = new System.Drawing.Size(65, 65);
 			this.btnSortDOWN.TabIndex = 5;
 			this.btnSortDOWN.Tag = "+1";
-			this.btnSortDOWN.Text = "Sort DOWN";
+			this.btnSortDOWN.Text = "↓";
+			this.btnSortDOWN.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.btnSortDOWN.UseVisualStyleBackColor = true;
 			this.btnSortDOWN.Click += new System.EventHandler(this.btnSort_Clicked);
+			// 
+			// folderBrowserDialog1
+			// 
+			this.folderBrowserDialog1.SelectedPath = "C:\\Users\\Ben\\Desktop";
+			// 
+			// openFileDialog1
+			// 
+			this.openFileDialog1.FileName = "openFileDialog1";
 			// 
 			// frmDescs
 			// 
@@ -152,5 +164,7 @@
 		private System.Windows.Forms.Button btnSaveToFile;
 		private System.Windows.Forms.Button btnSortUP;
 		private System.Windows.Forms.Button btnSortDOWN;
+		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 	}
 }
